@@ -19,9 +19,16 @@ export const getTableById = async (req, res) => {
     res.status(200).json(table);
 }
 
+export const updateTablePaymentStatus = async (req, res) => {
+    const {id} = req.params;
+    const {paymentStatus} = req.body;
+    const table = await Table.findOneAndUpdate({tableID: id}, {paymentStatus}, {new: true});
+    res.status(200).json(table);
+}
+
 export const updateTable = async (req, res) => {
     const {id} = req.params;
-    const fields = ["quantity", "time", "date", "name", "phone", "email", "occasion", "specialRequest", "tableType", "paymentStatus", "tableID"];
+    const fields = ["quantity", "time", "date", "name", "phone", "email", "occasion", "specialRequest", "tableType", "paymentStatus"];
 
     const updateData = {};
     fields.forEach(field => {
@@ -29,7 +36,7 @@ export const updateTable = async (req, res) => {
         updateData[field] = req.body[field];
       }
     });
-    const table = await Table.findOneAndUpdate({tableID: id}, updateData, {new: true});
+    const table = await Table.findByIdAndUpdate({_id: id}, updateData, {new: true});
     res.status(200).json(table);
 }
 

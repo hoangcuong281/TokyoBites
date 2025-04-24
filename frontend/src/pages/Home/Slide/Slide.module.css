@@ -2,6 +2,7 @@
     position: relative;
     top: 250px;
     left: 50%;
+    width: 100%;
 }
 .container{
     position: absolute;
