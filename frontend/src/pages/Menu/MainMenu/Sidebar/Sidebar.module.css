@@ -1,0 +1,33 @@
+.sidebar{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: var(--Kuro);
+    padding: 2rem;
+    border: 2px solid var(--Kuro);
+    border-radius: 20px;
+    margin-top: 10px;
+
+}
+
+.mealsList{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    list-style: none;
+    font-family: 'Gasoek One', sans-serif;
+    font-weight: 100;
+    font-style: initial;    
+    color: var(--Midori);
+    gap: 30px;
+    font-size: 1.2rem;
+}
+
+.menuSelection{
+    cursor: pointer;
+}
+
+.selected{
+    color: var(--Shiro);
+}

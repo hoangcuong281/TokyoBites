@@ -1,0 +1,115 @@
+.menu{
+    margin-top: 450px;
+    margin-bottom: 200px;
+}
+
+.menuContainer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title{
+    font-family: 'Gasoek One', sans-serif;
+    font-weight: 200px;
+    font-style: normal;
+    font-size: 3rem;
+    color: var(--Kuro);
+}
+
+.selections{
+    width: 65%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.selectionItem{
+    padding: 10px 20px;
+    border: 1px solid var(--Kuro);
+    border-radius: 20px;
+}
+.meals{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.meal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.image{
+    width: 240px;
+    height: 350px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 40px;
+}
+
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.name{
+    font-family: 'Gasoek One', sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 1rem;
+}
+
+.price{
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 0.8rem;
+}
+
+.drinks{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 100px;
+    width: 70%;
+
+}
+
+.option{
+    font-family: 'Gasoek One', sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 3rem;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+
+.options .option:first-child {
+    color: #9FA68C;
+}
+
+.buttons2{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttons2 button{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    margin: 10px;
+}

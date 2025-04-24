@@ -1,0 +1,45 @@
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 160px;
+    background-color: #ffff;
+    margin-top: 150px;
+}
+
+.hero div:first-child {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    max-width: 40%;
+    font-family: "Agdasima", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 50px;
+    white-space: pre-line;
+}
+
+.hero div:last-child {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #333;
+    width: 40%;
+    line-height: 1.6;
+}
+
+.heroButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.container{
+    position: absolute;
+    top:80%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width:1000px;
+    height:450px;
+    padding:50px;
+    overflow: hidden;
+}

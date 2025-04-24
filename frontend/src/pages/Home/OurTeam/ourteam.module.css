@@ -1,0 +1,59 @@
+.title{
+    font-family: 'Gasoek One', sans-serif;
+    font-weight: 100px;
+    font-style: normal;
+    font-size: 3rem;
+    color: var(--Shiro);
+    margin-bottom: 2rem;
+}
+
+.ourTeam{
+    width: 100%;
+    height: 800px;
+    background-color: var(--Kuro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.memContain{
+    width: 80%;
+    color: var(--Shiro);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.memItem{
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.memItem .memImg{
+    height: 450px;
+    width: 300px;
+    background-position: center;
+}
+
+.memName{
+    margin-top: 10px;
+    font-family: 'Gasoek One', sans-serif;
+    font-weight: 100px;
+    font-style: normal;
+    font-size: 1rem;
+}
+
+.memPosition{
+    font-size: 1rem;
+    font-style: bold;
+}
+
+.memQuote{
+    font-size: 0.8rem;
+    font-style: italic;
+}

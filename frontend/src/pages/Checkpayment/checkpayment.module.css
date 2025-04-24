@@ -1,0 +1,114 @@
+.payment{
+    padding: 40px;
+    background-color: var(--Kuro);
+    margin-top: 100px;
+    width: 70%;
+    justify-self: center;
+    border: 2px solid var(--Kuro);
+    border-radius: 20px;
+}
+
+.paymentContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--Shiro);
+    border: 2px solid var(--Shiro);
+    border-radius: 20px;
+}
+.mainTitle{
+    font-size: 2.5rem;
+    font-weight: 100;
+    font-family: 'Gasoek One', sans-serif;
+    color: var(--Aka);
+    margin-bottom: 5rem;
+}
+
+.successContainer {
+    text-align: center;
+    margin: 0px 0px 100px 0px;
+}
+.checkmark {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #8AA84F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+.checkmark::before {
+    content: "✔";
+    font-size: 100px;
+    color: white;
+}
+.message {
+    font-size: 2rem;
+    color: #8AA84F;
+    font-weight: bold;
+}
+.reviewButton{
+    margin-top: 20px;
+    background-color: var(--Aka);
+    color: var(--Shiro);
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 20px 45px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.reviewButton:hover{
+    background-color: var(--Shiro);
+    color: var(--Aka);
+    border: 2px solid var(--Aka);
+}
+
+.failContainer {
+    text-align: center;
+    margin: 0px 0px 100px 0px;
+}
+.fail{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: var(--Aka);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+.fail::before {
+    content: "!";
+    font-size: 200px;
+    color: white;
+}
+.failMessage {
+    font-size: 2rem;
+    color: var(--Aka);
+    font-weight: bold;
+}
+
+.failButton{
+    margin-top: 20px;
+    background-color: var(--Aka);
+    color: var(--Shiro);
+    border: 2px solid var(--Aka);
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 20px 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 20px 5px;
+}
+.failButton:hover{
+    background-color: var(--Shiro);
+    color: var(--Aka);
+    border: 2px solid var(--Aka);
+}
+

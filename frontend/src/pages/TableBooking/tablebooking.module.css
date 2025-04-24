@@ -1,0 +1,315 @@
+.bookingContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem 0 2rem 0;
+    background-color: var(--Midori);
+}
+
+.mainTitle{
+    font-size: 2.5rem;
+    font-weight: 100;
+    font-family: 'Gasoek One', sans-serif;
+    color: var(--Aka);
+    margin-bottom: 5rem;
+}
+
+.bookingContentContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    flex-direction: column;
+    border: 20px solid var(--Kuro);
+    border-radius: 40px 40px 40px 40px / 40px 40px 40px 40px;
+    width: 50%;
+    padding: 2rem;
+    background-color: var(--Shiro);
+}
+
+.bookingForm{
+    width: 80%;
+}
+.bookingForm form{
+    width: 100%;
+}
+.title{
+    font-size: 1.5rem;
+    font-weight: 100;
+    margin-bottom: 2rem;
+    font-family: 'Gasoek One', sans-serif;
+    color: var(--Aka);
+}
+.formRow{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+    width: 100%;
+}
+
+.formGroup{
+    width: 100%;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.formRow input{
+    color: var(--Kuro);
+    border: 1px solid var(--Kuro);
+    border-radius: 10px;
+    height: 2.5rem;
+    width: 100%;
+    padding: 0 10px;
+    transition: border-color 0.3s ease;
+}
+
+.formRow input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.formGroup input::placeholder {
+    color: var(--Kuro);
+    opacity: 0.5; 
+}
+
+.depositNote {
+    display: flex;
+    justify-self: center;
+    font-size: 0.75rem;
+    color: var(--Kuro);
+    text-align: justify;
+    margin: 1rem 0;
+    width: 95%;
+}
+
+.submitButton {
+    display: flex;
+    justify-self: end;
+    background-color: var(--Aka);
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Gasoek One', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #dd0000;
+}
+
+
+
+.payment{
+    padding: 40px;
+    background-color: var(--Kuro);
+    margin-top: 100px;
+    width: 70%;
+    justify-self: center;
+    border: 2px solid var(--Kuro);
+    border-radius: 20px;
+}
+
+.paymentContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--Shiro);
+    border: 2px solid var(--Shiro);
+    border-radius: 20px;
+}
+
+.table{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tableInner{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tableLabel{
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+.tableCard {
+    width: 100%;
+    margin-bottom: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 15px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.tableCard:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableCard input[type="radio"]:checked + .tableContent {
+    border-color: var(--Aka);
+}
+
+.tableItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.tableName{
+    font-weight: 500;
+}
+
+.tablePrice{
+    font-weight: 500;
+    color: var(--Aka);
+}
+
+.tableImg{
+    width: 200px;
+    height: 200px;
+}
+
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked {
+    border-color: var(--Aka);
+    background-color: var(--Aka);
+}
+
+#tableCard:hover {
+    transform: scale(1.05);
+}
+
+.qr{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: row;
+    padding-bottom: 50px;
+}
+
+#qrcode{
+    height: 300px;
+}
+
+.qrContent{
+    font-weight: 600;
+}
+
+#price{
+    color: var(--Aka);
+}
+
+
+
+.successContainer {
+    text-align: center;
+    margin: 200px 0px;
+}
+.checkmark {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #8AA84F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+.checkmark::before {
+    content: "✔";
+    font-size: 100px;
+    color: white;
+}
+.message {
+    font-size: 2rem;
+    color: #8AA84F;
+    font-weight: bold;
+}
+
+#acceptBtn {
+    background-color: #4CAF50; /* Màu xanh lá */
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 10px auto; /* Căn giữa */
+}
+
+#acceptBtn:hover {
+    background-color: .45a049; /* Màu xanh đậm hơn khi hover */
+}
+
+#acceptBtn:active {
+    background-color: #3e8e41; /* Màu khi click */
+}
+
+.failContainer {
+    text-align: center;
+    margin: 200px 0px;
+}
+.fail{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: var(--Aka);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
+.fail::before {
+    content: "!";
+    font-size: 200px;
+    color: white;
+}
+.failMessage {
+    font-size: 2rem;
+    color: var(--Aka);
+    font-weight: bold;
+}
+
+.inputError {
+    border: 1px solid red;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: block;
+}

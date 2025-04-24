@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&family=Gasoek+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root {
+    --Shiro: #F8F8F8;
+    --Kuro: #101820;
+    --Aka: #E60012;
+    --Midori: #9FA68C;
+    --Lime: #FFD700;
+    --Chilli: #8B5A2B;
+}
+html{
+    font-size: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ffff;
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
