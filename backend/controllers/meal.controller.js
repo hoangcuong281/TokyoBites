@@ -21,11 +21,12 @@ export const getMealById = async (req, res) => {
 }
 
 export const createMeal = async (req, res) => {
-    const {name, description, img, category} = req.body;
-    if(!name || !description || !img || !category) {
+    const {name, description, img, category, price} = req.body;
+    const highlight = false;
+    if(!name || !description || !img || !category || !price) {
         return res.status(400).json({message: 'All fields are required'});
     }
-    const meal = new Meal({name, description, img, category});
+    const meal = new Meal({name, description, img, category, price, highlight});
     try {
         await meal.save();
         res.status(201).json(meal);
@@ -51,7 +52,7 @@ export const createMeal = async (req, res) => {
 
 export const updateMeal = async (req, res) => {
     const {id} = req.params;
-    const allowedFields = ['name', 'description', 'img', 'category'];
+    const allowedFields = ['name', 'description', 'img', 'category', 'highlight', 'price'];
     
     // Check for unknown fields
     const unknownFields = Object.keys(req.body).filter(key => !allowedFields.includes(key));
@@ -62,21 +63,19 @@ export const updateMeal = async (req, res) => {
         });
     }
 
-    const {name, description, img, category} = req.body;
+    const {name, description, img, category, highlight, price} = req.body;
     
-    // Validate that at least one valid field is provided
-    if (!name && !description && !img && !category) {
-        return res.status(400).json({
-            message: 'At least one valid field (name, description, img, or category) is required'
-        });
-    }
-
     // Create update object with only valid fields
     const updateData = {};
     if (name) updateData.name = name;
     if (description) updateData.description = description;
     if (img) updateData.img = img;
     if (category) updateData.category = category;
+    if (price) updateData.price = price;
+    // Special handling for boolean highlight field
+    if (typeof highlight === 'boolean') {
+        updateData.highlight = highlight;
+    }
 
     try {
         const updatedMeal = await Meal.findByIdAndUpdate(

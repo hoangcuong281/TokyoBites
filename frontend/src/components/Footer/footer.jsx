@@ -18,7 +18,7 @@ function Footer(){
             <div className={styles.footerCenter}>
                 <a href="/home" className={`${styles.footerLogo} ${styles.logo}`}>TOKYO BITES</a>
                 <div className={styles.footerIcon}>
-                    <FontAwesomeIcon icon={faFacebook} />
+                    <FontAwesomeIcon icon={faFacebook} /> 
                     <FontAwesomeIcon icon={faInstagram} />
                     <FontAwesomeIcon icon={faTwitter} />
                     <FontAwesomeIcon icon={faYoutube} />

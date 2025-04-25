@@ -9,10 +9,9 @@
 }
 
 .menuTitle{
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 600;
     color: var(--Shiro);
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 100px;
-    font-style: normal;
+    font-family: var(--font-display);
+    font-weight: bold;
 }

@@ -19,9 +19,10 @@
     border-radius: 20px;
 }
 .mainTitle{
-    font-size: 2.5rem;
-    font-weight: 100;
-    font-family: 'Gasoek One', sans-serif;
+    margin-top: 2rem;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: var(--font-display);
     color: var(--Aka);
     margin-bottom: 5rem;
 }

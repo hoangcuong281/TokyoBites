@@ -1,5 +1,8 @@
 import styles from './menu.module.css';
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons'; // empty star
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons'; // filled star
 
 function Menu() {
   const [meals, setMeals] = useState([]);
@@ -16,8 +19,10 @@ function Menu() {
     description: '',
     img: '',
     category: '',
-    fileName: ''
+    fileName: '',
+    price: ''
   });
+  const [notification, setNotification] = useState({ show: false, message: '' });
 
   const fetchMeals = async () => {
     try {
@@ -217,9 +222,55 @@ function Menu() {
     setShowEditModal(true);
   };
 
+  const getHighlightedCountInCategory = (category) => {
+    return meals.filter(meal => meal.category === category && meal.highlight).length;
+  };
+
+  const toggleHighlight = async (mealId, currentHighlight, category) => {
+    if (!currentHighlight) {
+        const highlightedCount = getHighlightedCountInCategory(category);
+        if (highlightedCount >= 4) {
+            setNotification({
+                show: true,
+                message: `Cannot highlight more than 4 meals in the ${category} category`
+            });
+            
+            setTimeout(() => {
+                setNotification({ show: false, message: '' });
+            }, 3000);
+            
+            return;
+        }
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/meal/${mealId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ highlight: !currentHighlight })
+        });
+
+        if (response.ok) {
+            setMeals(meals.map(meal => 
+                meal._id === mealId 
+                    ? { ...meal, highlight: !meal.highlight }
+                    : meal
+            ));
+        }
+    } catch (error) {
+        console.error('Error updating highlight status:', error);
+    }
+  };
 
   return (
     <div className={styles.container}>
+      {notification.show && (
+        <div className={styles.notification}>
+          {notification.message}
+        </div>
+      )}
       <div className={styles.header}>
         <button onClick={() => setShowAddModal(true)} className={styles.buttonAdd}>Add</button>
         <div className={styles.searchBar}>
@@ -235,7 +286,8 @@ function Menu() {
             <option value="sashimi">Sashimi</option>
             <option value="ramen">Ramen</option>
             <option value="dessert">Dessert</option>
-            <option value="drinks">Drinks</option>
+            <option value="softdrinks">Soft Drinks</option>
+            <option value="alcohol">Alcohol</option>
             <option value="salads">Salads</option>
           </select>
       </div>
@@ -283,20 +335,42 @@ function Menu() {
             </div>
             <div className={styles.formGroup}>
               <label>Category:</label>
-              <input
-                type="text"
+              <select
                 name="category"
                 value={newMeal.category}
                 onChange={handleInputChange}
                 className={validationErrors.category ? styles.inputError : ''}
-              />
+              >
+                <option value="">Select Category</option>
+                <option value="appetizers">Appetizers</option>
+                <option value="maki">Maki</option>
+                <option value="sushi">Sushi</option>
+                <option value="sashimi">Sashimi</option>
+                <option value="ramen">Ramen</option>
+                <option value="dessert">Dessert</option>
+                <option value="softdrinks">Soft Drinks</option>
+                <option value="alcohol">Alcohol</option>
+                <option value="salads">Salads</option>
+              </select>
               {validationErrors.category && <span className={styles.errorMessage}>{validationErrors.category}</span>}
             </div>
+            <div className={styles.formGroup}>
+              <label>Price:</label>
+              <input
+                type="number"
+                name="price"
+                value={newMeal.price}
+                onChange={handleInputChange}
+                className={validationErrors.price ? styles.inputError : ''}
+              />
+              {validationErrors.price && <span className={styles.errorMessage}>{validationErrors.price}</span>}
+            </div>
+            
             <div className={styles.modalButtons}>
               <button onClick={handleAdd}>Save</button>
               <button onClick={() => {
                 setShowAddModal(false);
-                setNewMeal({ name: '', description: '', img: '', category: '', fileName: '' });
+                setNewMeal({ name: '', description: '', img: '', category: '', fileName: '', price: '' });
                 setValidationErrors({});
               }}>Cancel</button>
             </div>
@@ -340,13 +414,33 @@ function Menu() {
             </div>
             <div className={styles.formGroup}>
               <label>Category:</label>
-              <input
-                type="text"
+              <select
                 name="category"
                 value={editMeal?.category || ''}
                 onChange={handleEditChange}
+              >
+                <option value="">Select Category</option>
+                <option value="appetizers">Appetizers</option>
+                <option value="maki">Maki</option>
+                <option value="sushi">Sushi</option>
+                <option value="sashimi">Sashimi</option>
+                <option value="ramen">Ramen</option>
+                <option value="dessert">Dessert</option>
+                <option value="softdrinks">Soft Drinks</option>
+                <option value="alcohol">Alcohol</option>
+                <option value="salads">Salads</option>
+              </select>
+            </div>
+            <div className={styles.formGroup}>
+              <label>Price:</label>
+              <input
+                type="number"
+                name="price"
+                value={editMeal?.price || ''}
+                onChange={handleEditChange}
               />
             </div>
+            
             <div className={styles.modalButtons}>
               <button onClick={handleEditSave}>Save</button>
               <button onClick={() => setShowEditModal(false)}>Cancel</button>
@@ -374,12 +468,21 @@ function Menu() {
           .filter(meal => !selectedCategory || meal.category === selectedCategory)
           .map((meal) => (
             <div key={meal._id} className={styles.card}>
+                <div className={styles.favoriteButton} onClick={(e) => {
+                    e.stopPropagation();
+                    toggleHighlight(meal._id, meal.highlight, meal.category);
+                }}>
+                    <FontAwesomeIcon 
+                        icon={meal.highlight ? fasStar : farStar}
+                        className={styles.starIcon}
+                    />
+                </div>
                 <img src={meal.img} alt={meal.name} className={styles.card__image} />
                 <div className={styles.card__content}>
-                  <p className={styles.card__title}>{meal.name}</p>
-                  <p className={styles.card__description}>{meal.description}</p>
-                  <button onClick={() => handleEditClick(meal)} className={styles.buttonEdit}>Edit</button>
-                  <button onClick={() => handleDelete(meal._id)} className={styles.buttonDelete}>Delete</button>
+                    <p className={styles.card__title}>{meal.name}</p>
+                    <p className={styles.card__description}>{meal.description}</p>
+                    <button onClick={() => handleEditClick(meal)} className={styles.buttonEdit}>Edit</button>
+                    <button onClick={() => handleDelete(meal._id)} className={styles.buttonDelete}>Delete</button>
                 </div>
             </div>
           ))}

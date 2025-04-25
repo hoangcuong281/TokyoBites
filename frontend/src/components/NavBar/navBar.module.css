@@ -57,10 +57,10 @@
     font-size: 2.5rem;
     font-weight: bold;
     text-transform: uppercase;
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 400;
+    font-family: var(--font-display);
+    font-weight: bold;
     font-style: normal;
-    color: #e00000;
+    color: var(--Aka);
     text-decoration: none;
 }
 

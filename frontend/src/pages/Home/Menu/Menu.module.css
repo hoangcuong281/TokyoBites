@@ -14,8 +14,8 @@
 }
 
 .title{
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 200px;
+    font-family: var(--font-display);
+    font-weight: bold;
     font-style: normal;
     font-size: 3rem;
     color: var(--Kuro);
@@ -33,19 +33,46 @@
     padding: 10px 20px;
     border: 1px solid var(--Kuro);
     border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+.selectionItem:hover{
+    background-color: var(--Kuro);
+    color: var(--Shiro);
+}
+
+.selected {
+    background-color: var(--Kuro);
+    color: var(--Shiro);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.selected:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
 .meals{
-    width: 90%;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-evenly;
+    align-items: start;
     margin-top: 20px;
+    gap: 10px;
 }
 .meal{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 450px;
+    position: relative;
+}
+.meal:hover{
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .image{
@@ -58,24 +85,31 @@
 
 .content{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: column;
+    margin-top: 10px;
+    width: 100%;
+    height: 80px;
 }
 
 .name{
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 200;
+    font-family: var(--font-display);
+    font-weight: bold;
     font-style: normal;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 240px;
 }
 
 .price{
     font-family: "Roboto", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 300;
+    font-weight: bold;
     font-style: normal;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    margin-top: auto;
+    opacity: 0.7;
 }
 
 .drinks{
@@ -87,18 +121,30 @@
 
 }
 
-.option{
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 200;
-    font-style: normal;
-    font-size: 3rem;
-    padding: 10px;
-    border-bottom: 1px solid black;
+.options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    color: var(--Midori);
 }
 
+.options :first-child{
+    border-bottom: 1px solid var(--Kuro);
+}
 
-.options .option:first-child {
-    color: #9FA68C;
+.option {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-display);
+    font-weight: bold;
+    font-style: normal;
+    font-size: 4rem;
+}
+
+.chosen {
+    color: var(--Kuro);
 }
 
 .buttons2{
@@ -113,4 +159,50 @@
     height:50px;
     border-radius: 50%;
     margin: 10px;
+}
+
+.drinkContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.drinkSlide {
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideIn 0.5s ease forwards;
+}
+
+.drinkSlideReverse {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.5s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(var(--slide-direction, 20px));
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.buttons2 button {
+    transition: all 0.3s ease;
+    background: transparent;
+    border: 1px solid var(--Kuro);
+    cursor: pointer;
+}
+
+.buttons2 button:hover {
+    background: var(--Kuro);
+    color: white;
+    transform: scale(1.1);
+}
+
+.buttons2 button:active {
+    transform: scale(0.95);
 }

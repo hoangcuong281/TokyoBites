@@ -1,6 +1,6 @@
 .title{
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 100px;
+    font-family: var(--font-display);
+    font-weight: bold;
     font-style: normal;
     font-size: 3rem;
     color: var(--Shiro);
@@ -42,8 +42,8 @@
 
 .memName{
     margin-top: 10px;
-    font-family: 'Gasoek One', sans-serif;
-    font-weight: 100px;
+    font-family: var(--font-display);
+    font-weight: bold;
     font-style: normal;
     font-size: 1rem;
 }

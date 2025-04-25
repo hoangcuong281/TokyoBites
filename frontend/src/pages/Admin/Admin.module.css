@@ -61,9 +61,10 @@
 }
 
 .title {
-    font-family: 'Gasoek One', sans-serif;
+    font-family: var(--font-display);
+    font-weight: bold;
     text-align: center;
-    color: #1a1a1a;
+    color: var(--Kuro);
     margin-bottom: 2rem;
 }
 
