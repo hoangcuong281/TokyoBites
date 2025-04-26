@@ -9,12 +9,13 @@
     /* padding: 100px 0px; */
 }
 
-.footerCcontent{
-    font-size: 0.8rem;
+.footerContent{
+    font-size: 1rem;
+    font-weight: bold;
 }
 .footerLeft{
     height: 100%;
-    width: 25%;
+    width: 18%;
     display: flex;
     justify-content: space-between;
     align-items: start;
@@ -44,6 +45,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.inputContainer input{
+    width: 150px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid white;
+}
+
+.footerContent button{
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.8rem;
 }
 
 input {

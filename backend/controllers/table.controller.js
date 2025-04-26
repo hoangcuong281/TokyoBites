@@ -1,4 +1,5 @@
 import Table from '../models/table.model.js';
+import Tblconfig from '../models/tblconfig.js';
 import mongoose from 'mongoose';
 
 export const createTable = async (req, res) => {
@@ -45,6 +46,56 @@ export const deleteTable = async (req, res) => {
     await Table.findByIdAndDelete(id);
     res.status(200).json({message: 'Table deleted successfully'});
 }
+
+export const getAvailTbls = async (req, res) => {
+    const {date, time} = req.params;
+    try {
+        const isLunchShift = time === '12:00';  // Ca trưa
+        const shiftStart = isLunchShift ? '09:00' : '18:00';
+        const shiftEnd = isLunchShift ? '14:00' : '23:00';
+
+        const bookedTables = await Table.find({
+            date: date,
+            time: { 
+                $gte: shiftStart,  
+                $lte: shiftEnd    
+            },
+            paymentStatus: { $in: ['paid'] }
+        });
+
+        const tableConfigs = await Tblconfig.find();
+
+        const availableTables = tableConfigs.map(config => {
+            const bookedQuantity = bookedTables
+                .filter(booking => booking.tableType === config.tableID)
+                .reduce((total, booking) => {
+                    return total + Math.ceil(booking.quantity / 10);
+                }, 0);
+
+            return {
+                tableID: config.tableID,
+                tableName: config.tableName,
+                tableQty: Math.max(0, config.tableQty - bookedQuantity)
+            };
+        });
+
+        res.status(200).json(availableTables);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const getTblConfig = async (req, res) => {
+    const tblconfig = await Tblconfig.find().select('tableID tableName tablePrice tableIMG tableQty');
+    res.status(200).json(tblconfig);
+}
+
+export const getTblConfigById = async (req, res) => {
+    const {id} = req.params;
+    const tblconfig = await Tblconfig.findById(id);
+    res.status(200).json(tblconfig);
+}
+
 
 
 

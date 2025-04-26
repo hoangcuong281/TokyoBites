@@ -151,15 +151,15 @@
     font-weight: bold;
 }
 .tableCard {
-    width: 100%;
-    margin-bottom: 50px;
+    width: 80%;
+    margin-bottom: 20px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
     padding: 15px;
-    border: 2px solid transparent;
+    border: 1px solid var(--Midori);
     border-radius: 10px;
     transition: all 0.3s ease;
 }
@@ -303,13 +303,47 @@ input[type="radio"]:checked {
     font-weight: bold;
 }
 
+.input {
+    transition: border-color 0.3s ease;
+}
+
 .inputError {
-    border: 1px solid red;
+    border-color: #ff4444 !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+.infoMessage {
+    color: #666;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
 }
 
 .errorMessage {
-    color: red;
+    color: #ff4444;
     font-size: 0.8rem;
-    margin-top: 0.25rem;
+    margin-top: 4px;
     display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.availabilityInfo {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.availabilityInfo p {
+    margin: 2px 0;
 }

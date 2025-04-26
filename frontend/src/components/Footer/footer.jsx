@@ -28,6 +28,7 @@ function Footer(){
                 <p className={`${styles.signUp} ${styles.footerContent}`}>Sign up to our newsletter</p>
                 <div className={styles.inputContainer}>
                     <input type="email" placeholder="Email"/>
+                    <button className={styles.footerContent}>Subscribe</button>
                 </div>
             </div>
         </footer>
