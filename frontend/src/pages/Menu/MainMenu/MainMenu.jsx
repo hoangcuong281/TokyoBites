@@ -12,7 +12,7 @@ function MainMenu(){
         alignItems: 'start',
         padding: '0 6rem',
     }
-    const [selectedCategory, setSelectedCategory] = useState('appetizers');
+    const [selectedCategory, setSelectedCategory] = useState('all');
     return(
         <div style={menuContainer}>
             <Sidebar

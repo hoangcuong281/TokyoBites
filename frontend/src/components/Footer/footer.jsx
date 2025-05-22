@@ -6,6 +6,12 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 function Footer(){
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        // Here you can add your newsletter subscription logic
+        console.log('Newsletter subscription for:', email);
+    };
     
     return(
         <footer className={styles.footer}>
@@ -26,10 +32,20 @@ function Footer(){
             </div>
             <div className={styles.footerRight}>
                 <p className={`${styles.signUp} ${styles.footerContent}`}>Sign up to our newsletter</p>
-                <div className={styles.inputContainer}>
-                    <input type="email" placeholder="Email"/>
-                    <button className={styles.footerContent}>Subscribe</button>
-                </div>
+                <form onSubmit={handleSubmit} className={styles.inputContainer}>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="Email"
+                        required
+                    />
+                    <button 
+                        type="submit" 
+                        className={styles.footerContent}
+                    >
+                        Subscribe
+                    </button>
+                </form>
             </div>
         </footer>
     );
