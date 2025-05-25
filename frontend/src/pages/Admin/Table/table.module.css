@@ -39,7 +39,7 @@
     border-bottom: none;
 }
 
-.editBtn, .deleteBtn {
+.editBtn, .deleteBtn, .checkOutBtn {
     padding: 6px 12px;
     margin: 0 4px;
     border: none;
@@ -64,6 +64,15 @@
 
 .deleteBtn:hover {
     background-color: #da190b;
+}
+
+.checkOutBtn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.checkOutBtn:hover {
+    background-color: #1976D2;
 }
 
 .modal {
@@ -154,6 +163,11 @@
     font-size: 14px;
     color: #333;
     background-color: #fff;
+}
+
+.radioGroup {
+    display: flex;
+    align-items: center;;
 }
 
 .modalButtons {

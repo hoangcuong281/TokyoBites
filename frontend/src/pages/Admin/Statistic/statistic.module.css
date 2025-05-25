@@ -1,0 +1,57 @@
+.bookingStats {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.heading {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.dateInput {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.section {
+  margin-top: 20px;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+.subheading {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.stat {
+  margin: 4px 0;
+  color: #666;
+}
+.stat strong {
+  color: #2c3e50;   
+}
+
+.dateInput {
+  transition: border-color 0.3s;
+  color: var(--Kuro);
+}
+
+.dateInput:focus {
+  border-color: #3498db;
+  outline: none;
+}

@@ -35,16 +35,12 @@
     align-items: center;
     flex-direction: column;
     padding: 50px 50px 10px 30px;
+    width: 20%; /* Thêm dòng này, điều chỉnh theo ý bạn */
+    box-sizing: border-box;
 }
 
 .signUp{
     margin-bottom: 10px;
-}
-
-.inputContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .inputContainer input{
@@ -100,4 +96,12 @@ input::placeholder {
     align-items: center;
     color: var(--Shiro);
     margin-top: 32px;
+}
+
+.successMsg {
+    width: 100%;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    word-break: break-word;
+    text-align: center;
 }

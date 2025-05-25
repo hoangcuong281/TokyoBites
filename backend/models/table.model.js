@@ -11,8 +11,10 @@ const tableSchema = new Schema({
     occasion: {type: String},
     specialRequest: {type: String},
     tableType: {type: String, required: true},
-    paymentStatus: {type: String, required: true},
+    depositStatus: {type: String, required: true},
     tableID:{type: String , required: true},
+    paymentStatus: {type: String, required: true},
+    bill: {type: Number, required: true},
 });
 
 export default mongoose.model('Table', tableSchema);

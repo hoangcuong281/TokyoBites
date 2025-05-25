@@ -29,7 +29,7 @@ function TableBooking(){
         specialRequest: '',
         tableType: '',
         tablePrice: '',
-        paymentStatus: '',
+        depositStatus: '',
         tableID: '',
     });
 
@@ -195,7 +195,7 @@ function TableBooking(){
             });
             const data = await response.json();
             tables.tableID = data.TxnRef;
-            tables.paymentStatus = 'pending';
+            tables.depositStatus = 'pending';
             await fetch('http://localhost:3000/api/table/', {
                 method: 'POST',
                 headers: {

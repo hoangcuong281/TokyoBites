@@ -6,6 +6,7 @@ import menuRoutes from './routes/menu.route.js';
 import mealRoutes from './routes/meal.route.js';
 import paymentRoutes from './routes/payment.route.js';
 import tableRoutes from './routes/table.route.js';
+import emailRouter from './routes/email.route.js';
 const app = express();
 const port = process.env.PORT;
 
@@ -16,5 +17,6 @@ app.use('/menu', menuRoutes);
 app.use('/api/meal', mealRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/table', tableRoutes);
+app.use('/api/email', emailRouter);
 
 app.listen(port, () => {});

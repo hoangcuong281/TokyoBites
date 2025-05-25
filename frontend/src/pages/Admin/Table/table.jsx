@@ -7,6 +7,9 @@ function Table(){
     const [editTable, setEditTable] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [tableToDelete, setTableToDelete] = useState(null);
+    const [showCheckOutModal, setShowCheckOutModal] = useState(false);
+    const [checkOutTable, setCheckOutTable] = useState(null);
+    const [billTotal, setBillTotal] = useState('');
     
     const fetchTables = async () =>{
         try{
@@ -50,7 +53,8 @@ function Table(){
             occasion: table.occasion || '',
             specialRequest: table.specialRequest || '',
             tableType: table.tableType || '',
-            paymentStatus: table.paymentStatus || '',
+            depositStatus: table.depositStatus || '',
+            bill: table.bill || '',
             _id: table._id
         };
         setEditTable(tableDataForEdit);
@@ -75,7 +79,6 @@ function Table(){
                 },
                 body: JSON.stringify(tableData)
             });
-
             if (response.ok) {
                 const updatedTable = await response.json();
                 setTables(tables.map(t => t._id === editTable._id ? updatedTable : t));
@@ -87,7 +90,34 @@ function Table(){
         }
     }
 
-    // Thêm hàm formatDate
+    const handleCheckOut = (table) => {
+        setCheckOutTable(table);
+        setBillTotal('');
+        setShowCheckOutModal(true);
+    };
+
+    const handleConfirmCheckOut = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/table/bill/${checkOutTable}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ bill: billTotal })
+            });
+
+            if (response.ok) {
+                const updatedTable = await response.json();
+                setTables(tables.map(t => t._id === checkOutTable ? updatedTable : t));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setShowCheckOutModal(false);
+        setCheckOutTable(null);
+        setBillTotal('');
+    };
+
     const formatDate = (dateString) => {
         if (!dateString) return '';
         const date = new Date(dateString);
@@ -116,7 +146,8 @@ function Table(){
                         <th>Occasion</th>
                         <th>Special Request</th>
                         <th>Table Type</th>
-                        <th>Payment Status</th>
+                        <th>Deposit Status</th>
+                        <th>Bill</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -127,11 +158,9 @@ function Table(){
                             const timeA = new Date(`${a.date}T${a.time}`);
                             const timeB = new Date(`${b.date}T${b.time}`);
                             
-                            // Tính khoảng cách thời gian đến hiện tại (giá trị tuyệt đối)
                             const diffA = Math.abs(timeA - now);
                             const diffB = Math.abs(timeB - now);
                             
-                            // Sắp xếp theo khoảng cách gần nhất với hiện tại
                             return diffA - diffB;
                         })
                         .map((table)=>(
@@ -145,19 +174,30 @@ function Table(){
                                 <td>{table.occasion}</td>
                                 <td>{table.specialRequest}</td>
                                 <td>{table.tableType}</td>
-                                <td>{table.paymentStatus}</td>
+                                <td>{table.depositStatus}</td>
+                                <td>
+                                {table.bill
+                                    ? Number(table.bill).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+                                    : 'Chưa thanh toán'}
+                                </td>
                                 <td>
                                     <button 
                                         className={styles.editBtn} 
                                         onClick={() => handleEditClick(table)}
                                     >
-                                        Edit
+                                        Sửa
                                     </button>
                                     <button 
                                         className={styles.deleteBtn} 
                                         onClick={() => handleDelete(table._id)}
                                     >
-                                        Delete
+                                        Xoá
+                                    </button>
+                                    <button
+                                        className={styles.checkOutBtn}
+                                        onClick={()=>handleCheckOut(table._id)}
+                                    >
+                                        Trả bàn
                                     </button>
                                 </td>
                             </tr>
@@ -258,11 +298,36 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Payment Status:</label>
+                            <label>Deposit Status:</label>
+                            <div className={styles.radioGroup}>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="depositStatus"
+                                        value="paid"
+                                        checked={editTable?.depositStatus === "paid"}
+                                        onChange={handleEditChange}
+                                    />
+                                    Paid
+                                </label>
+                                <label style={{ marginLeft: '16px' }}>
+                                    <input
+                                        type="radio"
+                                        name="depositStatus"
+                                        value="unpaid"
+                                        checked={editTable?.depositStatus === "unpaid"}
+                                        onChange={handleEditChange}
+                                    />
+                                    Unpaid
+                                </label>
+                            </div>
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Tổng hoá đơn:</label>
                             <input
                                 type="text"
-                                name="paymentStatus"
-                                value={editTable?.paymentStatus || ''}
+                                name="bill"
+                                value={editTable?.bill || ''}
                                 onChange={handleEditChange}
                             />
                         </div>
@@ -291,6 +356,34 @@ function Table(){
                         <p>Are you sure you want to delete reservation for "{tableToDelete?.name}"?</p>
                         <div className={styles.modalButtons}>
                             <button onClick={confirmDelete} className={styles.deleteBtn}>Yes, Delete</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showCheckOutModal && (
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <div className={styles.modalHeader}>
+                            <h2>Trả bàn: {checkOutTable?.name}</h2>
+                            <button 
+                                className={styles.closeBtn}
+                                onClick={() => setShowCheckOutModal(false)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Nhập tổng giá trị hoá đơn:</label>
+                            <input
+                                type="number"
+                                value={billTotal}
+                                onChange={e => setBillTotal(e.target.value)}
+                                placeholder="Nhập số tiền (VND)"
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button onClick={handleConfirmCheckOut}>Xác nhận</button>
                         </div>
                     </div>
                 </div>

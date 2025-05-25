@@ -77,6 +77,9 @@ function MenuContent({ selectedCategory, onCategoryChange }) {
                             <div className={styles.card__content}>
                                 <p className={styles.card__title}>{meal.name}</p>
                                 <p className={styles.card__description}>{meal.description}</p>
+                                <p className={styles.card__price}>
+                                    {Number(meal.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                                </p>
                             </div>
                         </div>
                     ))

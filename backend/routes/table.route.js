@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTable, getTables, getTableById, updateTablePaymentStatus, updateTable, deleteTable, getAvailTbls, getTblConfig, getTblConfigById } from "../controllers/table.controller.js";
+import { createTable, getTables, getTableById, updateTableDepositStatus, updateTable, updateTableBill, deleteTable, getAvailTbls, getTblConfig, getTblConfigById } from "../controllers/table.controller.js";
 
 const router = express.Router();
 
@@ -13,9 +13,11 @@ router.get('/:id', getTableById);
 
 router.post('/', createTable);
 
-router.put('/:id', updateTablePaymentStatus);
+router.put('/:id', updateTableDepositStatus);
 
 router.put('/update/:id', updateTable);
+
+router.put('/bill/:id', updateTableBill);
 
 router.delete('/:id', deleteTable);
 

@@ -3,8 +3,8 @@ import Tblconfig from '../models/tblconfig.js';
 import mongoose from 'mongoose';
 
 export const createTable = async (req, res) => {
-    const {quantity, time, date, name, phone, email, occasion, specialRequest, tableType, paymentStatus, tableID} = req.body;
-    const table = new Table({quantity, time, date, name, phone, email, occasion, specialRequest, tableType, paymentStatus, tableID});
+    const {quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, tableID} = req.body;
+    const table = new Table({quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, tableID});
     await table.save();
     res.status(201).json(table);
 }
@@ -20,16 +20,16 @@ export const getTableById = async (req, res) => {
     res.status(200).json(table);
 }
 
-export const updateTablePaymentStatus = async (req, res) => {
+export const updateTableDepositStatus = async (req, res) => {
     const {id} = req.params;
-    const {paymentStatus} = req.body;
-    const table = await Table.findOneAndUpdate({tableID: id}, {paymentStatus}, {new: true});
+    const {depositStatus} = req.body;
+    const table = await Table.findOneAndUpdate({tableID: id}, {depositStatus}, {new: true});
     res.status(200).json(table);
 }
 
 export const updateTable = async (req, res) => {
     const {id} = req.params;
-    const fields = ["quantity", "time", "date", "name", "phone", "email", "occasion", "specialRequest", "tableType", "paymentStatus"];
+    const fields = ["quantity", "time", "date", "name", "phone", "email", "occasion", "specialRequest", "tableType", "depositStatus", "bill"];
 
     const updateData = {};
     fields.forEach(field => {
@@ -38,6 +38,13 @@ export const updateTable = async (req, res) => {
       }
     });
     const table = await Table.findByIdAndUpdate({_id: id}, updateData, {new: true});
+    res.status(200).json(table);
+}
+
+export const updateTableBill = async (req, res) => {
+    const {id} = req.params;
+    const {bill} = req.body;
+    const table = await Table.findOneAndUpdate({_id: id}, {bill}, {new: true});
     res.status(200).json(table);
 }
 
@@ -60,7 +67,7 @@ export const getAvailTbls = async (req, res) => {
                 $gte: shiftStart,  
                 $lte: shiftEnd    
             },
-            paymentStatus: { $in: ['paid'] }
+            depositStatus: { $in: ['paid'] }
         });
 
         const tableConfigs = await Tblconfig.find();

@@ -477,6 +477,9 @@ function Menu() {
                         className={styles.starIcon}
                     />
                 </div>
+                <p className={styles.card__price}>
+                  {Number(meal.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                </p>
                 <img src={meal.img} alt={meal.name} className={styles.card__image} />
                 <div className={styles.card__content}>
                     <p className={styles.card__title}>{meal.name}</p>

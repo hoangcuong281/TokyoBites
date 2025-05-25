@@ -11,7 +11,7 @@ function Header(){
                             <i className="fa fa-solid fa-bars"></i>
                         </div>
                         <a href="/menu" className={styles.navLink}>Menu</a>
-                        <a href="#" className={styles.navLink}>Team</a>
+                        <a href="#" className={styles.navLink}>Đầu bếp</a>
                     </div>
             
                     <div className={styles.navCenter}>
@@ -19,9 +19,9 @@ function Header(){
                     </div>
             
                     <div className={styles.navRight}>
-                        <a href="/tablebooking" className={styles.btnBook}>Book A Table</a>
-                        <a href="#" className={styles.navLink}>Events</a>
-                        <a href="#" className={styles.navLink}>Contact</a>
+                        <a href="/tablebooking" className={styles.btnBook}>Đặt bàn</a>
+                        <a href="#" className={styles.navLink}>Sự kiện</a>
+                        <a href="#" className={styles.navLink}>Liên hệ</a>
                     </div>
                 </nav>
             </section>
