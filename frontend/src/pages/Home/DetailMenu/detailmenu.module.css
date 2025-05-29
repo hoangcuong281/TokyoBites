@@ -22,12 +22,13 @@
     color: var(--Kuro);
 }
 
-.detailMenu .content{
+.detailMenu .content {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
+    gap: 20px;
 }
 
 .tag1, .tag2{
@@ -40,8 +41,11 @@
     background-color: var(--Aka);
     margin: 10px;
     width: 15%;
+    min-width: 220px;
+    max-width: 320px;
     height: 300px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .tagTitle{
@@ -74,4 +78,50 @@
 .tagBtn:hover{
     background-color: var(--Shiro);
     color: var(--Kuro);
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    .detailMenu .content {
+        flex-direction: column;
+        gap: 32px;
+        padding: 0 1rem;
+    }
+    .tag1, .tag2 {
+        width: 80%;
+        min-width: 180px;
+        max-width: 100%;
+        height: auto;
+        padding: 32px 10px;
+    }
+    .container .header {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .detailMenu .content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0;
+    }
+    .tag1, .tag2 {
+        width: 98%;
+        min-width: 120px;
+        padding: 20px 5px;
+        font-size: 1rem;
+    }
+    .container .header {
+        font-size: 1.5rem;
+    }
+    .tagTitle {
+        font-size: 1.2rem;
+    }
+    .tagDescription {
+        font-size: 1rem;
+    }
+    .tagBtn {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
 }
