@@ -1,5 +1,5 @@
 import styles from './event.module.css';
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../../components/NavBar/navBar";
 import Footer from "../../components/Footer/Footer";
 import { useEffect, useState } from 'react';
 
