@@ -258,231 +258,231 @@ function TableBooking(){
             <div className={styles.bookingContainer}>
                 <p className={styles.mainTitle}>TOKYO BITES</p>
                 <div className={styles.bookingContentContainer}>
-                        <p className={styles.title}>Secure Your Seat a Tokyo Bites</p>
-                        <div className={styles.bookingForm}>
-                            <form onSubmit={handlePayment}>
-                                <div className={styles.formRow}>
-                                    <div className={styles.formGroup}>
-                                        <label>People</label>
-                                        <input 
-                                            type="number" 
-                                            name="quantity" 
-                                            value={tables.quantity}
-                                            onChange={handleInputChange}
-                                            min="1"
-                                            max="40"
-                                            placeholder="10 peple / table"
-                                            className={`${styles.input} ${validationErrors.quantity ? styles.inputError : ''}`}
-                                        />
-                                        {validationErrors.quantity && 
-                                            <span className={styles.errorMessage}>{validationErrors.quantity}</span>
-                                        }
-                                        {tables.quantity > 0 && tables.quantity <= 40 && (
-                                            <span className={styles.infoMessage}>
-                                                {tables.quantity <= 10 ? 
-                                                    "Standard pricing" : 
-                                                    `${calculatePriceMultiplier(tables.quantity)}x standard price for ${tables.quantity} people`
-                                                }
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div className={styles.formGroup}>
-                                        <label>Time</label>
-                                        <input 
-                                            type="time" 
-                                            name="time" 
-                                            value={tables.time}
-                                            onChange={handleInputChange}
-                                            min="09:00"
-                                            max="23:00"
-                                            step="1800"
-                                            className={validationErrors.time ? styles.inputError : ''}
-                                        />
-                                        {validationErrors.time && 
-                                            <span className={styles.errorMessage}>{validationErrors.time}</span>
-                                        }
+                    <p className={styles.title}>Secure Your Seat a Tokyo Bites</p>
+                    <div className={styles.bookingForm}>
+                        <form onSubmit={handlePayment}>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label>People</label>
+                                    <input 
+                                        type="number" 
+                                        name="quantity" 
+                                        value={tables.quantity}
+                                        onChange={handleInputChange}
+                                        min="1"
+                                        max="40"
+                                        placeholder="10 peple / table"
+                                        className={`${styles.input} ${validationErrors.quantity ? styles.inputError : ''}`}
+                                    />
+                                    {validationErrors.quantity && 
+                                        <span className={styles.errorMessage}>{validationErrors.quantity}</span>
+                                    }
+                                    {tables.quantity > 0 && tables.quantity <= 40 && (
                                         <span className={styles.infoMessage}>
-                                            Business hours: 9:00 AM - 2:00 PM, 6:00 PM - 11:00 PM
+                                            {tables.quantity <= 10 ? 
+                                                "Standard pricing" : 
+                                                `${calculatePriceMultiplier(tables.quantity)}x standard price for ${tables.quantity} people`
+                                            }
                                         </span>
-                                    </div>
-                                    <div className={styles.formGroup}>
-                                        <label>Date</label>
-                                        <input 
-                                            type="date" 
-                                            name="date" 
-                                            value={tables.date}
-                                            onChange={handleInputChange}
-                                            className={validationErrors.date ? styles.inputError : ''}
-                                        />
-                                        {validationErrors.date && <span className={styles.errorMessage}>{validationErrors.date}</span>}
-                                    </div>
+                                    )}
                                 </div>
-                                <div className={styles.formRow}>
-                                    <div className={styles.formGroup}>
-                                        <label>Name</label>
-                                        <input 
-                                            type="text" 
-                                            name="name" 
-                                            value={tables.name}
-                                            onChange={handleInputChange}
-                                            className={validationErrors.name ? styles.inputError : ''}
-                                        />
-                                        {validationErrors.name && <span className={styles.errorMessage}>{validationErrors.name}</span>}
-                                    </div>
+                                <div className={styles.formGroup}>
+                                    <label>Time</label>
+                                    <input 
+                                        type="time" 
+                                        name="time" 
+                                        value={tables.time}
+                                        onChange={handleInputChange}
+                                        min="09:00"
+                                        max="23:00"
+                                        step="1800"
+                                        className={validationErrors.time ? styles.inputError : ''}
+                                    />
+                                    {validationErrors.time && 
+                                        <span className={styles.errorMessage}>{validationErrors.time}</span>
+                                    }
+                                    <span className={styles.infoMessage}>
+                                        Business hours: 9:00 AM - 2:00 PM, 6:00 PM - 11:00 PM
+                                    </span>
                                 </div>
-                                <div className={styles.formRow}>
-                                    <div className={styles.formGroup}>
-                                        <label>Phone</label>
-                                        <input 
-                                            type="tel"
-                                            name="phone"
-                                            value={tables.phone}
-                                            onChange={handleInputChange}
-                                            maxLength="10"
-                                            className={`${styles.input} ${validationErrors.phone ? styles.inputError : ''}`}
-                                            pattern="[0-9]*"  // This will show number keyboard on mobile devices
-                                        />
-                                        {validationErrors.phone && (
-                                            <span className={styles.errorMessage}>
-                                                {validationErrors.phone}
-                                            </span>
-                                        )}
-                                    </div>
+                                <div className={styles.formGroup}>
+                                    <label>Date</label>
+                                    <input 
+                                        type="date" 
+                                        name="date" 
+                                        value={tables.date}
+                                        onChange={handleInputChange}
+                                        className={validationErrors.date ? styles.inputError : ''}
+                                    />
+                                    {validationErrors.date && <span className={styles.errorMessage}>{validationErrors.date}</span>}
                                 </div>
-                                <div className={styles.formRow}>
-                                    <div className={styles.formGroup}>
-                                        <label>Email</label>
-                                        <input 
-                                            type="email" 
-                                            name="email" 
-                                            value={tables.email}
-                                            onChange={handleInputChange}
-                                            className={`${styles.input} ${validationErrors.email ? styles.inputError : ''}`}
-                                        />
-                                        {validationErrors.email && (
-                                            <span className={styles.errorMessage}>
-                                                {validationErrors.email}
-                                            </span>
-                                        )}
-                                    </div>
+                            </div>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label>Name</label>
+                                    <input 
+                                        type="text" 
+                                        name="name" 
+                                        value={tables.name}
+                                        onChange={handleInputChange}
+                                        className={validationErrors.name ? styles.inputError : ''}
+                                    />
+                                    {validationErrors.name && <span className={styles.errorMessage}>{validationErrors.name}</span>}
                                 </div>
-                                <div className={styles.formRow}>
-                                    <div className={styles.formGroup}>
-                                        <label>Occasion: (Optional)</label>
-                                        <input 
-                                            type="text" 
-                                            name="occasion" 
-                                            value={tables.occasion}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
+                            </div>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label>Phone</label>
+                                    <input 
+                                        type="tel"
+                                        name="phone"
+                                        value={tables.phone}
+                                        onChange={handleInputChange}
+                                        maxLength="10"
+                                        className={`${styles.input} ${validationErrors.phone ? styles.inputError : ''}`}
+                                        pattern="[0-9]*"  // This will show number keyboard on mobile devices
+                                    />
+                                    {validationErrors.phone && (
+                                        <span className={styles.errorMessage}>
+                                            {validationErrors.phone}
+                                        </span>
+                                    )}
                                 </div>
-                                <div className={styles.formRow}>
-                                    <div className={styles.formGroup}>
-                                        <label>Special Request: (Optional)</label>
-                                        <input 
-                                            type="text" 
-                                            name="specialRequest" 
-                                            value={tables.specialRequest}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
+                            </div>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label>Email</label>
+                                    <input 
+                                        type="email" 
+                                        name="email" 
+                                        value={tables.email}
+                                        onChange={handleInputChange}
+                                        className={`${styles.input} ${validationErrors.email ? styles.inputError : ''}`}
+                                    />
+                                    {validationErrors.email && (
+                                        <span className={styles.errorMessage}>
+                                            {validationErrors.email}
+                                        </span>
+                                    )}
                                 </div>
-                                <div className={styles.table}>
-                                    <div className={styles.tableInner}>
-                                        <label className={styles.tableLabel}>Table Type and Deposit Fee</label>
-                                        {validationErrors.tableType && <span className={styles.errorMessage}>{validationErrors.tableType}</span>}
-                                        {tablesType.map((table) => {
-                                            const isAvailableForLunch = isTableAvailable(table, 'lunch');
-                                            const isAvailableForDinner = isTableAvailable(table, 'dinner');
-                                            const isDisabled = !isAvailableForLunch && !isAvailableForDinner;
+                            </div>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label>Occasion: (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        name="occasion" 
+                                        value={tables.occasion}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label>Special Request: (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        name="specialRequest" 
+                                        value={tables.specialRequest}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className={styles.table}>
+                                <div className={styles.tableInner}>
+                                    <label className={styles.tableLabel}>Table Type and Deposit Fee</label>
+                                    {validationErrors.tableType && <span className={styles.errorMessage}>{validationErrors.tableType}</span>}
+                                    {tablesType.map((table) => {
+                                        const isAvailableForLunch = isTableAvailable(table, 'lunch');
+                                        const isAvailableForDinner = isTableAvailable(table, 'dinner');
+                                        const isDisabled = !isAvailableForLunch && !isAvailableForDinner;
 
-                                            return (
-                                                <div 
-                                                    key={table.tableID}
-                                                    className={`${styles.tableCard} ${isDisabled ? styles.disabledTable : ''}`}
-                                                    onClick={() => {
+                                        return (
+                                            <div 
+                                                key={table.tableID}
+                                                className={`${styles.tableCard} ${isDisabled ? styles.disabledTable : ''}`}
+                                                onClick={() => {
+                                                    if (isDisabled) return;
+
+                                                    const selectedTable = tablesType.find(t => t.tableID === table.tableID);
+                                                    const quantity = parseInt(tables.quantity) || 0;
+                                                    const multiplier = calculatePriceMultiplier(quantity);
+                                                    const adjustedPrice = selectedTable.tablePrice * multiplier;
+                                                    
+                                                    handleInputChange({
+                                                        target: {
+                                                            name: 'tableType',
+                                                            value: table.tableID
+                                                        }
+                                                    });
+                                                    handleInputChange({
+                                                        target: {
+                                                            name: 'tablePrice',
+                                                            value: adjustedPrice
+                                                        }
+                                                    });
+                                                }}
+                                            >
+                                                <input 
+                                                    type="radio" 
+                                                    name="selection"
+                                                    value={table.tableID}
+                                                    checked={tables.tableType === table.tableID}
+                                                    disabled={isDisabled}
+                                                    onChange={(e) => {
                                                         if (isDisabled) return;
-
-                                                        const selectedTable = tablesType.find(t => t.tableID === table.tableID);
-                                                        const quantity = parseInt(tables.quantity) || 0;
-                                                        const multiplier = calculatePriceMultiplier(quantity);
-                                                        const adjustedPrice = selectedTable.tablePrice * multiplier;
-                                                        
+                                                        const selectedTable = tablesType.find(t => t.tableID === e.target.value);
                                                         handleInputChange({
                                                             target: {
                                                                 name: 'tableType',
-                                                                value: table.tableID
+                                                                value: e.target.value
                                                             }
                                                         });
                                                         handleInputChange({
                                                             target: {
                                                                 name: 'tablePrice',
-                                                                value: adjustedPrice
+                                                                value: selectedTable.tablePrice
                                                             }
                                                         });
                                                     }}
-                                                >
-                                                    <input 
-                                                        type="radio" 
-                                                        name="selection"
-                                                        value={table.tableID}
-                                                        checked={tables.tableType === table.tableID}
-                                                        disabled={isDisabled}
-                                                        onChange={(e) => {
-                                                            if (isDisabled) return;
-                                                            const selectedTable = tablesType.find(t => t.tableID === e.target.value);
-                                                            handleInputChange({
-                                                                target: {
-                                                                    name: 'tableType',
-                                                                    value: e.target.value
+                                                />
+                                                <div className={styles.tableContent}>
+                                                    <p className={styles.tableName}>{table.tableName}</p>
+                                                    <p className={styles.tablePrice}>{table.tablePrice.toLocaleString("vi-VN")} đ</p>
+                                                    {availableTables[table.tableID] && (
+                                                        <div className={styles.availabilityInfo}>
+                                                            <p>Số bàn còn trống:</p>
+                                                            <p className={!isAvailableForLunch ? styles.notAvailable : ''}>
+                                                                Ca trưa (9:00 - 14:00): {availableTables[table.tableID].lunch} bàn
+                                                                {!isAvailableForLunch && tables.quantity && 
+                                                                    <span className={styles.errorMessage}> (Không đủ chỗ cho {tables.quantity} người)</span>
                                                                 }
-                                                            });
-                                                            handleInputChange({
-                                                                target: {
-                                                                    name: 'tablePrice',
-                                                                    value: selectedTable.tablePrice
+                                                            </p>
+                                                            <p className={!isAvailableForDinner ? styles.notAvailable : ''}>
+                                                                Ca tối (18:00 - 23:00): {availableTables[table.tableID].dinner} bàn
+                                                                {!isAvailableForDinner && tables.quantity && 
+                                                                    <span className={styles.errorMessage}> (Không đủ chỗ cho {tables.quantity} người)</span>
                                                                 }
-                                                            });
-                                                        }}
-                                                    />
-                                                    <div className={styles.tableContent}>
-                                                        <p className={styles.tableName}>{table.tableName}</p>
-                                                        <p className={styles.tablePrice}>{table.tablePrice.toLocaleString("vi-VN")} đ</p>
-                                                        {availableTables[table.tableID] && (
-                                                            <div className={styles.availabilityInfo}>
-                                                                <p>Số bàn còn trống:</p>
-                                                                <p className={!isAvailableForLunch ? styles.notAvailable : ''}>
-                                                                    Ca trưa (9:00 - 14:00): {availableTables[table.tableID].lunch} bàn
-                                                                    {!isAvailableForLunch && tables.quantity && 
-                                                                        <span className={styles.errorMessage}> (Không đủ chỗ cho {tables.quantity} người)</span>
-                                                                    }
-                                                                </p>
-                                                                <p className={!isAvailableForDinner ? styles.notAvailable : ''}>
-                                                                    Ca tối (18:00 - 23:00): {availableTables[table.tableID].dinner} bàn
-                                                                    {!isAvailableForDinner && tables.quantity && 
-                                                                        <span className={styles.errorMessage}> (Không đủ chỗ cho {tables.quantity} người)</span>
-                                                                    }
-                                                                </p>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div className={styles.tableItem}>
-                                                        <img src={table.tableIMG} alt={table.tableName} className={styles.tableImg}/>
-                                                    </div>
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            );
-                                        })}
-                                    </div>
+                                                <div className={styles.tableItem}>
+                                                    <img src={table.tableIMG} alt={table.tableName} className={styles.tableImg}/>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                                <p className={styles.depositNote}>A deposit fee (price will depend on table type) is required to secure your 
-                                table reservation at our restaurant. This amount will be applied to your final 
-                                bill. Thank you for your understanding!</p>
-                                <button onClick={handlePayment} type="submit" className={styles.submitButton}>Confirm & Pay Deposit</button>
-                            </form>
-                        </div>
+                            </div>
+                            <p className={styles.depositNote}>A deposit fee (price will depend on table type) is required to secure your 
+                            table reservation at our restaurant. This amount will be applied to your final 
+                            bill. Thank you for your understanding!</p>
+                            <button onClick={handlePayment} type="submit" className={styles.submitButton}>Confirm & Pay Deposit</button>
+                        </form>
                     </div>
                 </div>
+            </div>
             <Footer />
         </>
     )

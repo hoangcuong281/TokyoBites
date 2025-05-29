@@ -1,0 +1,97 @@
+.intro {
+    margin-top: 40px;
+    display: flex;
+    justify-self: center;
+    width: 90%;
+    min-height: 400px;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    background: var(--Kuro);
+    box-sizing: border-box;
+    border-radius: 18px;
+    flex-direction: column;
+}
+
+.firstIntro, .secondIntro {
+    display: flex;
+}
+
+.introLeft, .introRight {
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.introLeft {
+    padding: 0 40px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    width: 50%;
+}
+
+.introLeft p {
+    font-size: 2.5rem;
+    color: var(--Shiro);
+    line-height: 2;
+    font-weight: bold;
+    font-family: "Oswald", sans-serif;
+}
+
+.introRight {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.introImg {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+
+.introLeft2, .introRight2 {
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.introLeft2 {
+    padding: 0 40px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    width: 50%;
+}
+
+.introLeft2 p {
+    font-size: 2.5rem;
+    color: var(--Shiro);
+    line-height: 2;
+    font-weight: bold;
+    font-family: "Oswald", sans-serif;
+}
+
+.introRight2 {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.introImg2 {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+}

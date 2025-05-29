@@ -38,6 +38,7 @@
     height: 450px;
     width: 300px;
     background-position: center;
+    object-fit: cover;
 }
 
 .memName{

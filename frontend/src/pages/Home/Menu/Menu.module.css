@@ -1,6 +1,6 @@
 .menu{
-    margin-top: 450px;
-    margin-bottom: 200px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     width: 100%;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .title{
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: bold;
     font-style: normal;
     font-size: 3rem;
@@ -94,7 +94,6 @@
 }
 
 .name{
-    font-family: var(--font-display);
     font-weight: bold;
     font-style: normal;
     font-size: 1.2rem;
@@ -137,10 +136,10 @@
 .option {
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: bold;
     font-style: normal;
-    font-size: 4rem;
+    font-size: 3.5rem;
 }
 
 .chosen {

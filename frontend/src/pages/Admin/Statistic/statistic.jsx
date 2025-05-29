@@ -6,6 +6,14 @@ function Statistic() {
         daily: { normal: 0, premium: 0, vip: 0 },
         monthly: { normal: 0, premium: 0, vip: 0 }
     });
+    const [guestStats, setGuestStats] = useState({
+        daily: 0,
+        monthly: 0
+    });
+    const [revenueStats, setRevenueStats] = useState({
+        daily: 0,
+        monthly: 0
+    });
     const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().slice(0, 10));
 
     const fetchBookingStats = async (date) => {
@@ -20,6 +28,11 @@ function Statistic() {
             const daily = { normal: 0, premium: 0, vip: 0 };
             const monthly = { normal: 0, premium: 0, vip: 0 };
 
+            let dailyGuests = 0;
+            let monthlyGuests = 0;
+            let dailyRevenue = 0;
+            let monthlyRevenue = 0;
+
             const typeMap = {
                 NORMALTABLE: 'normal',
                 PRENIUMTABLE: 'premium',
@@ -27,16 +40,30 @@ function Statistic() {
             };
 
             bookings.forEach(b => {
+                // Chỉ tính những bàn đã thanh toán (bill là số)
+                const isPaid = typeof b.bill === 'number' && !isNaN(b.bill);
+                if (!isPaid) return;
+
                 const type = typeMap[b.tableType];
                 if (!type) return;
+
+                // Thống kê theo ngày
                 if (b.date.startsWith(selectedDay)) {
                     daily[type] += 1;
+                    dailyGuests += Number(b.quantity) || 0;
+                    dailyRevenue += Number(b.bill) || 0;
                 }
+                // Thống kê theo tháng
                 if (b.date.startsWith(selectedMonth)) {
                     monthly[type] += 1;
+                    monthlyGuests += Number(b.quantity) || 0;
+                    monthlyRevenue += Number(b.bill) || 0;
                 }
             });
+
             setBookingStats({ daily, monthly });
+            setGuestStats({ daily: dailyGuests, monthly: monthlyGuests });
+            setRevenueStats({ daily: dailyRevenue, monthly: monthlyRevenue });
         } catch (error) {
             console.log(error);
         }
@@ -48,7 +75,6 @@ function Statistic() {
 
     function formatDate(input) {
         const parts = input.split("-");
-        
         if (parts.length === 3) {
             const [year, month, day] = parts;
             return `${day}/${month}/${year}`;
@@ -58,6 +84,10 @@ function Statistic() {
         } else {
             return "Định dạng không hợp lệ";
         }
+    }
+
+    function formatCurrency(number) {
+        return Number(number).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
 
     return (
@@ -73,16 +103,20 @@ function Statistic() {
             />
         </label>
         <div className={styles.section}>
-            <h3 className={styles.subheading}>Số bàn được đặt trong ngày: {formatDate(selectedDate) || 'Pick a date to get started'}</h3>
+            <h3 className={styles.subheading}>Số bàn đã thanh toán trong ngày: {formatDate(selectedDate) || 'Pick a date to get started'}</h3>
             <p className={styles.stat}>Bàn thường: <strong>{bookingStats.daily.normal}</strong></p>
             <p className={styles.stat}>Bàn cao cấp: <strong>{bookingStats.daily.premium}</strong></p>
             <p className={styles.stat}>Bàn VIP: <strong>{bookingStats.daily.vip}</strong></p>
+            <p className={styles.stat}>Tổng lượt khách: <strong>{guestStats.daily}</strong></p>
+            <p className={styles.stat}>Tổng doanh thu: <strong>{formatCurrency(revenueStats.daily)}</strong></p>
         </div>
         <div className={styles.section}>
-            <h3 className={styles.subheading}>Số bàn được đặt trong tháng: {formatDate(selectedDate.slice(0, 7))}</h3>
+            <h3 className={styles.subheading}>Số bàn đã thanh toán trong tháng: {formatDate(selectedDate.slice(0, 7))}</h3>
             <p className={styles.stat}>Bàn thường: <strong>{bookingStats.monthly.normal}</strong></p>
             <p className={styles.stat}>Bàn cao cấp: <strong>{bookingStats.monthly.premium}</strong></p>
             <p className={styles.stat}>Bàn VIP: <strong>{bookingStats.monthly.vip}</strong></p>
+            <p className={styles.stat}>Tổng lượt khách: <strong>{guestStats.monthly}</strong></p>
+            <p className={styles.stat}>Tổng doanh thu: <strong>{formatCurrency(revenueStats.monthly)}</strong></p>
         </div>
     </div>
     );

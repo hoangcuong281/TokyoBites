@@ -1,4 +1,4 @@
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../../components/NavBar/navBar";
 import Footer from "../../components/Footer/Footer";
 import Header from "./Header/Header";
 import MainMenu from "./MainMenu/MainMenu";

@@ -3,6 +3,7 @@ import Menu from './Menu/menu'
 import Table from './Table/table'
 import Statistic from './Statistic/statistic';
 import CusService from './CustomerService/cusService';
+import EventManagement from './Event/event';
 import styles from './admin.module.css'
 
 
@@ -18,25 +19,31 @@ function Admin(){
                         className={`${styles.tab} ${activeView === 'menu' ? styles.tabActive : ''}`}
                         onClick={() => setActiveView('menu')}
                     >
-                        Menu
+                        THỰC ĐƠN
                     </button>
                     <button 
                         className={`${styles.tab} ${activeView === 'table' ? styles.tabActive : ''}`}
                         onClick={() => setActiveView('table')}
                     >
-                        Đặt bàn
+                        ĐẶT BÀN
                     </button>
                     <button 
                         className={`${styles.tab} ${activeView === 'statistic' ? styles.tabActive : ''}`}
                         onClick={() => setActiveView('statistic')}
                     >
-                        Thống kê
+                        THỐNG KÊ
                     </button>
                     <button 
                         className={`${styles.tab} ${activeView === 'customerService' ? styles.tabActive : ''}`}
                         onClick={() => setActiveView('customerService')}
                     >
-                        Dịch vụ khách hàng
+                        DỊCH VỤ KHÁCH HÀNG
+                    </button>
+                    <button 
+                        className={`${styles.tab} ${activeView === 'eventManagement' ? styles.tabActive : ''}`}
+                        onClick={() => setActiveView('eventManagement')}
+                    >
+                        SỰ KIỆN
                     </button>
                 </div>
                 <div className={styles.contentCard}>
@@ -45,6 +52,7 @@ function Admin(){
                         {activeView === 'table' && <Table/>}
                         {activeView === 'statistic' && <Statistic/>}
                         {activeView === 'customerService' && <CusService/>}
+                        {activeView === 'eventManagement' && <EventManagement/>}
                     </div>
                 </div>
             </div>

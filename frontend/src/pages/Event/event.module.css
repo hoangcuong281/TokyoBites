@@ -1,0 +1,59 @@
+.topTitle{
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    background-color: var(--Kuro);
+    padding: 0px 0px 10px 6.5rem;
+}
+
+.eventTitle{
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--Shiro);
+    font-family: var(--font-display);
+    font-weight: bold;
+}
+
+.eventList {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 6.5rem;
+    background: var(--Shiro);
+}
+
+.eventItem {
+    background: #fff;
+    border: 1.5px solid var(--Kuro);
+    border-radius: 18px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+}
+
+.eventItem:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.eventName {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--Aka);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-display);
+}
+
+.eventDate {
+    font-size: 1rem;
+    color: var(--Midori);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+}
+
+.eventDescription {
+    font-size: 1.05rem;
+    color: var(--Kuro);
+    line-height: 1.6;
+}

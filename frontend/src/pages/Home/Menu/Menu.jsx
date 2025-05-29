@@ -1,5 +1,4 @@
 import styles from './Menu.module.css';
-import BiaHaNoi from '../../../assets/BiaHaNoi.png';
 import { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,7 +20,6 @@ function Menu(){
     useEffect(() => {
         fetchMeals();
     }, []);
-    console.log(meals);
     
     const handleDrinkCategoryChange = (category) => {
         setSelectedDrinkCategory(category);
@@ -54,13 +52,13 @@ function Menu(){
     return (
         <section className={styles.menu}>
             <div className={styles.menuContainer}>
-                <p className={styles.title}>Menu</p>
+                <p className={styles.title}>Món được yêu thích nhất</p>
                 <div className={styles.selections}>
                     <div 
                         className={`${styles.selectionItem} ${selectedCategory === 'appetizers' ? styles.selected : ''}`} 
                         onClick={() => setSelectedCategory('appetizers')}
                     >
-                        Appetizers
+                        Khai vị
                     </div>
                     <div 
                         className={`${styles.selectionItem} ${selectedCategory === 'maki' ? styles.selected : ''}`} 
@@ -96,7 +94,7 @@ function Menu(){
                         className={`${styles.selectionItem} ${selectedCategory === 'rice' ? styles.selected : ''}`} 
                         onClick={() => setSelectedCategory('rice')}
                     >
-                        Rice
+                        Cơm
                     </div>
                 </div>
 
@@ -154,13 +152,13 @@ function Menu(){
                             className={`${styles.option} ${selectedDrinkCategory === 'softdrinks' ? styles.chosen : ''}`}
                             onClick={() => handleDrinkCategoryChange('softdrinks')}
                         >
-                            Soft Drinks
+                            Nước giải khát
                         </div>
                         <div 
                             className={`${styles.option} ${selectedDrinkCategory === 'alcohol' ? styles.chosen : ''}`}
                             onClick={() => handleDrinkCategoryChange('alcohol')}
                         >
-                            Alcohol
+                            Đồ uống có cồn
                         </div>
                     </div>
                 </div>

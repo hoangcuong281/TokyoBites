@@ -6,20 +6,61 @@
     height: 200px;
     background-color: var(--Aka);
     color: var(--Shiro);
-    /* padding: 100px 0px; */
+    font-family: 'Oswald', sans-serif;
 }
 
-.footerContent{
+.footerLeftContent{
     font-size: 1rem;
-    font-weight: bold;
+    text-decoration: none;
+    color: var(--Shiro);
 }
 .footerLeft{
     height: 100%;
-    width: 18%;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 50px 30px 40px 50px;
+}
+.aboutus{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.leftNavLink{
+    width: 70%;
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    padding: 50px 30px 40px 50px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.rating{
+    display: flex;
+    justify-self: start;
+    align-self: start;
+    text-align: center;
+    flex-direction: row;
+    text-decoration: none;
+    color: var(--Shiro);
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.leftPolicy{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.footerLeft a:hover, .leftPolicy a:hover{
+    color: var(--Kuro);
 }
 
 .footerCenter{
@@ -29,6 +70,8 @@
 }
 
 .footerRight{
+    font-size: 1rem;
+    font-weight: bold;
     height: 100%;
     display: flex;
     justify-content: start;
@@ -50,11 +93,20 @@
     border-bottom: 1px solid white;
 }
 
-.footerContent button{
-    background: none;
+.registerButton{
+    padding: 6px 12px;
+    margin: 0 4px;
     border: none;
-    color: white;
-    font-size: 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: var(--Ao);
+    color: var(--Shiro);
+}
+
+.registerButton:hover {
+    background-color: var(--Shiro);
+    color: var(--Kuro);
 }
 
 input {
@@ -66,6 +118,7 @@ input {
     font-size: 0.8rem;
     color: white;
     padding: 5px 10px;
+    margin-right: 10px;
 }
 input::placeholder {
     color: rgba(255, 255, 255, 0.6); /* Light red placeholder */
@@ -73,7 +126,6 @@ input::placeholder {
 
 .logo {
     font-size: 2.5rem;
-    font-weight: bold;
     text-transform: uppercase;
     font-family: 'Gasoek One', sans-serif;
     font-weight: 400;
@@ -98,7 +150,7 @@ input::placeholder {
     margin-top: 32px;
 }
 
-.successMsg {
+.successMesg {
     width: 100%;
     font-size: 0.8rem;
     margin-top: 10px;

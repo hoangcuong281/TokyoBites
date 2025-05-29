@@ -1,5 +1,20 @@
 import Email from '../models/email.model.js';
+import transporter from '../config/nodemailer.js';
 
+export const sendEmail = async (req, res) => {
+    const emails = await Email.find();
+    const emailList = emails.map(item => item.email);
+    const { subject, text} = req.body;
+
+    (async () => {
+    const info = await transporter.sendMail({
+        from: '"TokyoBites" <viperdiff28@gmail.com>',
+        to: 'ng.hoangcuong28@gmail.com', // list of receivers
+        subject: subject,
+        text: text,
+    });
+    })();
+}
 export const getEmails = async (req, res) => {
     const emails = await Email.find();
     res.status(200).json(emails);

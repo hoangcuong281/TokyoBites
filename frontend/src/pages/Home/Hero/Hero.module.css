@@ -1,29 +1,47 @@
 .hero {
+    position: relative;
+    width: 100%;
+    min-height: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 160px;
+    overflow: hidden;
+}
+
+.bgVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 160px;
-    background-color: #ffff;
-    margin-top: 150px;
 }
 
-.hero div:first-child {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
+.content > div:first-child {
+    color: var(--Shiro);
     max-width: 40%;
-    font-family: "Agdasima", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 50px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 3.5rem;
     white-space: pre-line;
 }
 
-.hero div:last-child {
+.content > div:last-child {
     font-weight: 400;
-    font-size: 0.9rem;
-    color: #333;
+    font-size: 1.2rem;
+    color: var(--Shiro);
     width: 40%;
     line-height: 1.6;
 }
@@ -43,4 +61,14 @@
     height:450px;
     padding:50px;
     overflow: hidden;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
 }

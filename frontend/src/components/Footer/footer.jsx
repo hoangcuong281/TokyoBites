@@ -7,7 +7,7 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 function Footer(){
-    const [successMsg, setSuccessMsg] = useState('');
+    const [successMesg, setSuccessMesg] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +20,7 @@ function Footer(){
             body: JSON.stringify({ email }),
         });
         if (response.ok){
-            setSuccessMsg("Bạn đã đăng ký nhận thông báo các chương trình ưu đãi!!!");
+            setSuccessMesg("Đăng ký nhận thông báo các chương trình ưu đãi thành công!!!");
             e.target.reset();
         }
     };
@@ -28,10 +28,13 @@ function Footer(){
     return(
         <footer className={styles.footer}>
             <div className={styles.footerLeft}>
-                <div className={styles.footerContent}>Menu</div>
-                <div className={styles.footerContent}>Đầu bếp</div>
-                <div className={styles.footerContent}>Sự kiện</div>
-                <div className={styles.footerContent}>Liên hệ</div>
+                <div className={styles.leftNavLink}>
+                    <div className={styles.aboutus}>VỀ CHÚNG TÔI</div>
+                    <a href='/team' className={styles.footerLeftContent}>ĐỘI NGŨ</a>
+                    <a href='/event' className={styles.footerLeftContent}>SỰ KIỆN</a>
+                    <a href='/contact' className={styles.footerLeftContent}>LIÊN HỆ</a>
+                </div>
+                <a href='/rating' className={styles.rating}>ĐÁNH GIÁ TRẢI NGHIỆM CỦA BẠN TẠI TOKYO BITES</a>
             </div>
             <div className={styles.footerCenter}>
                 <a href="/home" className={`${styles.footerLogo} ${styles.logo}`}>TOKYO BITES</a>
@@ -40,6 +43,10 @@ function Footer(){
                     <FontAwesomeIcon icon={faInstagram} />
                     <FontAwesomeIcon icon={faTwitter} />
                     <FontAwesomeIcon icon={faYoutube} />
+                </div>
+                <div className={styles.leftPolicy}>
+                    <a href='/privacy' className={styles.footerLeftContent}>Chính sách bảo mật</a>
+                    <a href='/terms-conditions' className={styles.footerLeftContent}>Điều khoản sử dụng</a>
                 </div>
             </div>
             <div className={styles.footerRight}>
@@ -53,13 +60,13 @@ function Footer(){
                     />
                     <button 
                         type="submit" 
-                        className={styles.footerContent}
+                        className={styles.registerButton}
                     >
                         Đăng ký
                     </button>
                 </form>
-                {successMsg && (
-                    <div className={styles.successMsg}>{successMsg}</div>
+                {successMesg && (
+                    <div className={styles.successMesg}>{successMesg}</div>
                 )}
             </div>
         </footer>

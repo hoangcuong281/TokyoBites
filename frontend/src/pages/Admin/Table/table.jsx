@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './table.module.css';
 
 function Table(){
@@ -10,6 +10,12 @@ function Table(){
     const [showCheckOutModal, setShowCheckOutModal] = useState(false);
     const [checkOutTable, setCheckOutTable] = useState(null);
     const [billTotal, setBillTotal] = useState('');
+    const [filter, setFilter] = useState({
+        date: '',
+        billStatus: '',
+        quantity: '',
+        tableType: ''
+    });
     
     const fetchTables = async () =>{
         try{
@@ -127,6 +133,15 @@ function Table(){
         return `${day}/${month}/${year}`;
     }
 
+    const filteredTables = tables.filter(table => {
+        if (filter.date && table.date !== filter.date) return false;
+        if (filter.billStatus === 'paid' && !table.bill) return false;
+        if (filter.billStatus === 'unpaid' && table.bill) return false;
+        if (filter.quantity && Number(table.quantity) !== Number(filter.quantity)) return false;
+        if (filter.tableType && table.tableType !== filter.tableType) return false;
+        return true;
+    });
+
     useEffect(()=>{
         fetchTables();
     }, []);
@@ -134,6 +149,60 @@ function Table(){
 
     return(
         <div className={styles.tableContainer}>
+            <div className={styles.filterContainer}>
+                <div className={styles.filterItem}>
+                    <label>Ngày: </label>
+                    <input
+                        className={styles.inputSquare}
+                        type="date"
+                        value={filter.date}
+                        onChange={e => setFilter(f => ({ ...f, date: e.target.value }))}
+                    />
+                </div>
+                <div className={styles.filterItem}>
+                    <label>Trạng thái bill: </label>
+                    <select
+                        className={styles.inputSquare}
+                        value={filter.billStatus}
+                        onChange={e => setFilter(f => ({ ...f, billStatus: e.target.value }))}
+                    >
+                        <option value="">Tất cả</option>
+                        <option value="paid">Đã thanh toán</option>
+                        <option value="unpaid">Chưa thanh toán</option>
+                    </select>
+                </div>
+                <div className={styles.filterItem}>
+                    <label>Số lượng người: </label>
+                    <input
+                        className={styles.inputSquare}
+                        type="number"
+                        min="1"
+                        value={filter.quantity}
+                        onChange={e => setFilter(f => ({ ...f, quantity: e.target.value }))}
+                        placeholder="VD: 4"
+                        style={{ width: 60 }}
+                    />
+                </div>
+                <div className={styles.filterItem}>
+                    <label>Loại bàn: </label>
+                    <select
+                        className={styles.inputSquare}
+                        value={filter.tableType}
+                        onChange={e => setFilter(f => ({ ...f, tableType: e.target.value }))}
+                        style={{ width: 120 }}
+                    >
+                        <option value="">Tất cả</option>
+                        <option value="NORMALTABLE">Bàn thường</option>
+                        <option value="PRENIUMTABLE">Bàn cao cấp</option>
+                        <option value="VIPTABLE">Bàn VIP</option>
+                    </select>
+                </div>
+                <button 
+                    onClick={() => setFilter({ date: '', billStatus: '', quantity: '', tableType: '' })}
+                    className={styles.clearFilterBtn}>
+                    Xoá lọc
+                </button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -152,15 +221,13 @@ function Table(){
                     </tr>
                 </thead>
                 <tbody>
-                    {tables
+                    {filteredTables
                         .sort((a, b) => {
                             const now = new Date();
                             const timeA = new Date(`${a.date}T${a.time}`);
                             const timeB = new Date(`${b.date}T${b.time}`);
-                            
                             const diffA = Math.abs(timeA - now);
                             const diffB = Math.abs(timeB - now);
-                            
                             return diffA - diffB;
                         })
                         .map((table)=>(
