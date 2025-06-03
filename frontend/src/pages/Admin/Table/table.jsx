@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './table.module.css';
 
-function Table(){
+function Table() {
     const [tables, setTables] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editTable, setEditTable] = useState(null);
@@ -16,7 +16,23 @@ function Table(){
         quantity: '',
         tableType: ''
     });
-    
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newTable, setNewTable] = useState({
+        tableID: 'admin',
+        name: '',
+        quantity: '',
+        time: '',
+        date: '',
+        phone: '',
+        email: '',
+        occasion: '',
+        specialRequest: '',
+        tableType: '',
+        depositStatus: '',
+        bill: 0
+    });
+    const [addValidation, setAddValidation] = useState({});
+
     const fetchTables = async () =>{
         try{
             const response = await fetch("http://localhost:3000/api/table");
@@ -78,6 +94,7 @@ function Table(){
     const handleEditSave = async () => {
         try {
             const { _id, __v, ...tableData } = editTable;
+            
             const response = await fetch(`http://localhost:3000/api/table/update/${editTable._id}`, {
                 method: 'PUT',
                 headers: {
@@ -124,6 +141,77 @@ function Table(){
         setBillTotal('');
     };
 
+    const handleAddChange = (e) => {
+        const { name, value } = e.target;
+        setNewTable(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        setAddValidation(prev => {
+            const newErrors = { ...prev };
+            if (value && value.toString().trim() !== '') {
+                delete newErrors[name];
+            }
+            return newErrors;
+        });
+    };
+
+    const handleAddSave = async () => {
+        // Validation
+        const requiredFields = [
+            { key: 'name', label: 'Tên' },
+            { key: 'quantity', label: 'Số lượng người' },
+            { key: 'time', label: 'Giờ' },
+            { key: 'date', label: 'Ngày' },
+            { key: 'phone', label: 'Số điện thoại' },
+            { key: 'email', label: 'Email' },
+            { key: 'tableType', label: 'Loại bàn' },
+            { key: 'depositStatus', label: 'Trạng thái đặt cọc' },
+        ];
+        let errors = {};
+        requiredFields.forEach(field => {
+            if (field.key === 'tableType' || field.key === 'depositStatus') {
+                errors[field.key] = `Vui lòng chọn ${field.label}.`;
+            } else {
+                errors[field.key] = `Vui lòng nhập ${field.label}.`;
+            }
+        });
+        setAddValidation(errors);
+        if (Object.keys(errors).length > 0) return;
+
+        try {
+            const response = await fetch('http://localhost:3000/api/table/admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newTable)
+            });
+            if (response.ok) {
+                const addedTable = await response.json();
+                setTables(prev => [...prev, addedTable]);
+                setShowAddModal(false);
+                setNewTable({
+                    tableID: '',
+                    name: '',
+                    quantity: '',
+                    time: '',
+                    date: '',
+                    phone: '',
+                    email: '',
+                    occasion: '',
+                    specialRequest: '',
+                    tableType: '',
+                    depositStatus: '',
+                    bill: 0
+                });
+                setAddValidation({});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const formatDate = (dateString) => {
         if (!dateString) return '';
         const date = new Date(dateString);
@@ -149,6 +237,13 @@ function Table(){
 
     return(
         <div className={styles.tableContainer}>
+            <button
+                className={styles.addBtn}
+                style={{ marginBottom: 16 }}
+                onClick={() => setShowAddModal(true)}
+            >
+                Thêm
+            </button>
             <div className={styles.filterContainer}>
                 <div className={styles.filterItem}>
                     <label>Ngày: </label>
@@ -206,18 +301,18 @@ function Table(){
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Time</th>
-                        <th>Date</th>
-                        <th>Phone</th>
+                        <th>Tên</th>
+                        <th>Số lượng</th>
+                        <th>Giờ</th>
+                        <th>Ngày</th>
+                        <th>Số điện thoại</th>
                         <th>Email</th>
-                        <th>Occasion</th>
-                        <th>Special Request</th>
-                        <th>Table Type</th>
-                        <th>Deposit Status</th>
-                        <th>Bill</th>
-                        <th>Actions</th>
+                        <th>Dịp đặc biệt</th>
+                        <th>Yêu cầu đặc biệt</th>
+                        <th>Loại bàn</th>
+                        <th>Trạng thái cọc</th>
+                        <th>Tổng hoá đơn</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -230,8 +325,17 @@ function Table(){
                             const diffB = Math.abs(timeB - now);
                             return diffA - diffB;
                         })
-                        .map((table)=>(
-                            <tr key={table._id}>
+                        .map((table) => (
+                            <tr
+                                key={table._id}
+                                className={
+                                    table.depositStatus === "paid" && Number(table.bill) > 0
+                                        ? styles["row-paid-all"]
+                                        : table.depositStatus === "paid"
+                                            ? styles["row-paid-deposit"]
+                                            : styles["row-unpaid-all"]
+                                }
+                            >
                                 <td>{table.name}</td>
                                 <td>{table.quantity}</td>
                                 <td>{table.time}</td>
@@ -241,28 +345,32 @@ function Table(){
                                 <td>{table.occasion}</td>
                                 <td>{table.specialRequest}</td>
                                 <td>{table.tableType}</td>
-                                <td>{table.depositStatus}</td>
                                 <td>
-                                {table.bill
-                                    ? Number(table.bill).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
-                                    : 'Chưa thanh toán'}
+                                    {table.depositStatus === "paid"
+                                        ? "Đã thanh toán"
+                                        : "Chưa thanh toán"}
                                 </td>
                                 <td>
-                                    <button 
-                                        className={styles.editBtn} 
+                                    {(table.bill && Number(table.bill) !== 0)
+                                        ? Number(table.bill).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+                                        : 'Chưa thanh toán'}
+                                </td>
+                                <td>
+                                    <button
+                                        className={styles.editBtn}
                                         onClick={() => handleEditClick(table)}
                                     >
                                         Sửa
                                     </button>
-                                    <button 
-                                        className={styles.deleteBtn} 
+                                    <button
+                                        className={styles.deleteBtn}
                                         onClick={() => handleDelete(table._id)}
                                     >
                                         Xoá
                                     </button>
                                     <button
                                         className={styles.checkOutBtn}
-                                        onClick={()=>handleCheckOut(table._id)}
+                                        onClick={() => handleCheckOut(table._id)}
                                     >
                                         Trả bàn
                                     </button>
@@ -272,11 +380,157 @@ function Table(){
                 </tbody>
             </table>
 
+            {/* Add Modal */}
+            {showAddModal && (
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <div className={styles.modalHeader}>
+                            <h2>Thêm đơn đặt bàn</h2>
+                            <button
+                                className={styles.closeBtn}
+                                onClick={() => setShowAddModal(false)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Tên:</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={newTable.name}
+                                onChange={handleAddChange}
+                            />
+                            {addValidation.name && <span className={styles.errorMessage}>{addValidation.name}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Số lượng:</label>
+                            <input
+                                type="number"
+                                name="quantity"
+                                value={newTable.quantity}
+                                onChange={handleAddChange}
+                            />
+                            {addValidation.quantity && <span className={styles.errorMessage}>{addValidation.quantity}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Giờ:</label>
+                            <input
+                                type="time"
+                                name="time"
+                                value={newTable.time}
+                                onChange={handleAddChange}
+                            />
+                            {addValidation.time && <span className={styles.errorMessage}>{addValidation.time}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Ngày:</label>
+                            <input
+                                type="date"
+                                name="date"
+                                value={newTable.date}
+                                onChange={handleAddChange}
+                            />
+                            {addValidation.date && <span className={styles.errorMessage}>{addValidation.date}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Số điện thoại:</label>
+                            <input
+                                type="tel"
+                                name="phone"
+                                value={newTable.phone}
+                                onChange={handleAddChange}
+                            />
+                            {addValidation.phone && <span className={styles.errorMessage}>{addValidation.phone}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Email:</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={newTable.email}
+                                onChange={handleAddChange}
+                            />
+                            {addValidation.email && <span className={styles.errorMessage}>{addValidation.email}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Dịp đặc biệt:</label>
+                            <input
+                                type="text"
+                                name="occasion"
+                                value={newTable.occasion}
+                                onChange={handleAddChange}
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Yêu cầu đặc biệt:</label>
+                            <textarea
+                                name="specialRequest"
+                                value={newTable.specialRequest}
+                                onChange={handleAddChange}
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Loại bàn:</label>
+                            <select
+                                name="tableType"
+                                value={newTable.tableType}
+                                onChange={handleAddChange}
+                            >
+                                <option value="">Chọn loại bàn</option>
+                                <option value="NORMALTABLE">Bàn thường</option>
+                                <option value="PRENIUMTABLE">Bàn cao cấp</option>
+                                <option value="VIPTABLE">Bàn VIP</option>
+                            </select>
+                            {addValidation.tableType && <span className={styles.errorMessage}>{addValidation.tableType}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Trạng thái cọc:</label>
+                            <div className={styles.radioGroup}>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="depositStatus"
+                                        value="paid"
+                                        checked={newTable.depositStatus === "paid"}
+                                        onChange={handleAddChange}
+                                    />
+                                    Dã thanh toán
+                                </label>
+                                <label style={{ marginLeft: '16px' }}>
+                                    <input
+                                        type="radio"
+                                        name="depositStatus"
+                                        value="unpaid"
+                                        checked={newTable.depositStatus === "unpaid"}
+                                        onChange={handleAddChange}
+                                    />
+                                    Chưa thanh toán
+                                </label>
+                            </div>
+                            {addValidation.depositStatus && <span className={styles.errorMessage}>{addValidation.depositStatus}</span>}
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label>Tổng hoá đơn:</label>
+                            <input
+                                type="text"
+                                name="bill"
+                                value={newTable.bill}
+                                onChange={handleAddChange}
+                            />
+                        </div>
+                        <div className={styles.modalButtons}>
+                            <button onClick={handleAddSave}>Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {showEditModal && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
                         <div className={styles.modalHeader}>
-                            <h2>Edit Reservation</h2>
+                            <h2>Sửa đơn đặt bàn</h2>
                             <button 
                                 className={styles.closeBtn}
                                 onClick={() => setShowEditModal(false)}
@@ -285,7 +539,7 @@ function Table(){
                             </button>
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Name:</label>
+                            <label>Tên:</label>
                             <input
                                 type="text"
                                 name="name"
@@ -294,7 +548,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Quantity:</label>
+                            <label>Số lượng:</label>
                             <input
                                 type="number"
                                 name="quantity"
@@ -303,7 +557,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Time:</label>
+                            <label>Giờ:</label>
                             <input
                                 type="time"
                                 name="time"
@@ -312,7 +566,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Date:</label>
+                            <label>Ngày:</label>
                             <input
                                 type="date"
                                 name="date"
@@ -321,7 +575,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Phone:</label>
+                            <label>Số điện thoại:</label>
                             <input
                                 type="tel"
                                 name="phone"
@@ -339,7 +593,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Occasion:</label>
+                            <label>Dịp đặc biệt:</label>
                             <input
                                 type="text"
                                 name="occasion"
@@ -348,7 +602,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Special Request:</label>
+                            <label>Yêu cầu đặc biệt:</label>
                             <textarea
                                 name="specialRequest"
                                 value={editTable?.specialRequest || ''}
@@ -356,7 +610,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Table Type:</label>
+                            <label>Loại bàn:</label>
                             <input
                                 type="text"
                                 name="tableType"
@@ -365,7 +619,7 @@ function Table(){
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label>Deposit Status:</label>
+                            <label>Trạng thái cọc:</label>
                             <div className={styles.radioGroup}>
                                 <label>
                                     <input
@@ -375,7 +629,7 @@ function Table(){
                                         checked={editTable?.depositStatus === "paid"}
                                         onChange={handleEditChange}
                                     />
-                                    Paid
+                                    Đã thanh toán
                                 </label>
                                 <label style={{ marginLeft: '16px' }}>
                                     <input
@@ -385,7 +639,7 @@ function Table(){
                                         checked={editTable?.depositStatus === "unpaid"}
                                         onChange={handleEditChange}
                                     />
-                                    Unpaid
+                                    Chưa thanh toán
                                 </label>
                             </div>
                         </div>
@@ -456,7 +710,7 @@ function Table(){
                 </div>
             )}
         </div>
-    )
-}       
+    );
+}
 
 export default Table;

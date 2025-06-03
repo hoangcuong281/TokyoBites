@@ -16,7 +16,6 @@ function TableBooking(){
         fetchTablesType();
     }, []);
 
-    console.log(tablesType);
 
     const [tables, setTables] = useState({
         quantity: '',
@@ -30,6 +29,7 @@ function TableBooking(){
         tableType: '',
         tablePrice: '',
         depositStatus: '',
+        bill: 0,
         tableID: '',
     });
 
@@ -72,12 +72,12 @@ function TableBooking(){
             if (quantity <= 0) {
                 setValidationErrors(prev => ({
                     ...prev,
-                    quantity: 'Number of people must be greater than 0'
+                    quantity: 'Số lượng phải lớn hơn 0'
                 }));
             } else if (quantity > 40) {
                 setValidationErrors(prev => ({
                     ...prev,
-                    quantity: 'Maximum 40 people allowed. Please contact us directly for larger groups.'
+                    quantity: 'Số lượng không được vượt quá 40 người'
                 }));
             } else {
                 setValidationErrors(prev => ({
@@ -109,7 +109,7 @@ function TableBooking(){
             if (numbersOnly.length > 0 && !isValidPhone(numbersOnly)) {
                 setValidationErrors(prev => ({
                     ...prev,
-                    phone: 'Please enter a valid 10-digit phone number starting with 0'
+                    phone: 'Vui lòng nhập đúng định dạng SĐT với 10 chữ số và bắt đầu bằng số 0'
                 }));
             } else {
                 setValidationErrors(prev => ({
@@ -124,7 +124,7 @@ function TableBooking(){
             if (!isWithinBusinessHours(value)) {
                 setValidationErrors(prev => ({
                     ...prev,
-                    time: 'Please select a time between 9:00 AM - 2:00 PM or 6:00 PM - 11:00 PM'
+                    time: 'Vui lòng chọn trong khung giờ 9:00 AM - 2:00 PM or 6:00 PM - 11:00 PM'
                 }));
             } else {
                 setValidationErrors(prev => ({
@@ -182,6 +182,21 @@ function TableBooking(){
         if (!isValidEmail(tables.email)) {
             errors.email = 'Please enter a valid email address (e.g., example@domain.com)';
         }
+        if (tables.tableType && tables.quantity) {
+            // eslint-disable-next-line no-unused-vars
+            const selectedTable = tablesType.find(t => t.tableID === tables.tableType);
+            const shift = isWithinBusinessHours(tables.time)
+                ? (parseInt(tables.time.split(':')[0], 10) < 15 ? 'lunch' : 'dinner')
+                : null;
+            if (shift && availableTables[tables.tableType]) {
+                const availableQty = availableTables[tables.tableType][shift];
+                const tablesNeeded = Math.ceil(parseInt(tables.quantity) / 10);
+                if (availableQty < tablesNeeded) {
+                    errors.tableType = 'Không đủ bàn trống cho số lượng người bạn chọn!';
+                }
+            }
+        }
+
         if (Object.keys(errors).length > 0) {
             setValidationErrors(errors);
             return;
@@ -258,12 +273,12 @@ function TableBooking(){
             <div className={styles.bookingContainer}>
                 <p className={styles.mainTitle}>TOKYO BITES</p>
                 <div className={styles.bookingContentContainer}>
-                    <p className={styles.title}>Secure Your Seat a Tokyo Bites</p>
+                    <p className={styles.title}>Bạn đã sẵn sàng cho một bữa ăn ngon tại Tokyo Bites?</p>
                     <div className={styles.bookingForm}>
                         <form onSubmit={handlePayment}>
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
-                                    <label>People</label>
+                                    <label>Số lượng người</label>
                                     <input 
                                         type="number" 
                                         name="quantity" 
@@ -287,7 +302,7 @@ function TableBooking(){
                                     )}
                                 </div>
                                 <div className={styles.formGroup}>
-                                    <label>Time</label>
+                                    <label>Giờ</label>
                                     <input 
                                         type="time" 
                                         name="time" 
@@ -302,11 +317,11 @@ function TableBooking(){
                                         <span className={styles.errorMessage}>{validationErrors.time}</span>
                                     }
                                     <span className={styles.infoMessage}>
-                                        Business hours: 9:00 AM - 2:00 PM, 6:00 PM - 11:00 PM
+                                        Giờ mở cửa: 9:00 AM - 2:00 PM, 6:00 PM - 11:00 PM
                                     </span>
                                 </div>
                                 <div className={styles.formGroup}>
-                                    <label>Date</label>
+                                    <label>Ngày</label>
                                     <input 
                                         type="date" 
                                         name="date" 
@@ -319,7 +334,7 @@ function TableBooking(){
                             </div>
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
-                                    <label>Name</label>
+                                    <label>Tên</label>
                                     <input 
                                         type="text" 
                                         name="name" 
@@ -332,7 +347,7 @@ function TableBooking(){
                             </div>
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
-                                    <label>Phone</label>
+                                    <label>Số điện thoại</label>
                                     <input 
                                         type="tel"
                                         name="phone"
@@ -368,7 +383,7 @@ function TableBooking(){
                             </div>
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
-                                    <label>Occasion: (Optional)</label>
+                                    <label>Dịp đặc biệt: (Không bắt buộc)</label>
                                     <input 
                                         type="text" 
                                         name="occasion" 
@@ -379,7 +394,7 @@ function TableBooking(){
                             </div>
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
-                                    <label>Special Request: (Optional)</label>
+                                    <label>Yêu cầu đặc biệt: (Không đặc biệt)</label>
                                     <input 
                                         type="text" 
                                         name="specialRequest" 
@@ -390,7 +405,7 @@ function TableBooking(){
                             </div>
                             <div className={styles.table}>
                                 <div className={styles.tableInner}>
-                                    <label className={styles.tableLabel}>Table Type and Deposit Fee</label>
+                                    <label className={styles.tableLabel}>Loại bàn và phí đặt cọc</label>
                                     {validationErrors.tableType && <span className={styles.errorMessage}>{validationErrors.tableType}</span>}
                                     {tablesType.map((table) => {
                                         const isAvailableForLunch = isTableAvailable(table, 'lunch');
@@ -475,10 +490,10 @@ function TableBooking(){
                                     })}
                                 </div>
                             </div>
-                            <p className={styles.depositNote}>A deposit fee (price will depend on table type) is required to secure your 
-                            table reservation at our restaurant. This amount will be applied to your final 
-                            bill. Thank you for your understanding!</p>
-                            <button onClick={handlePayment} type="submit" className={styles.submitButton}>Confirm & Pay Deposit</button>
+                            <p className={styles.depositNote}>Để đảm bảo giữ chỗ tại nhà hàng, quý khách vui lòng đặt cọc trước 50% giá trị bàn 
+                            (mức phí sẽ thay đổi tùy theo loại bàn). Phần còn lại sẽ được trừ trực tiếp vào hóa đơn thanh toán cuối cùng.
+                            Chúng tôi trân trọng cảm ơn sự thông cảm và hợp tác của quý khách!</p>
+                            <button onClick={handlePayment} type="submit" className={styles.submitButton}>Xác nhận & Thanh toán</button>
                         </form>
                     </div>
                 </div>

@@ -1,10 +1,9 @@
 import Table from '../models/table.model.js';
 import Tblconfig from '../models/tblconfig.js';
-import mongoose from 'mongoose';
 
 export const createTable = async (req, res) => {
-    const {quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, tableID} = req.body;
-    const table = new Table({quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, tableID});
+    const {quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, bill, tableID} = req.body;
+    const table = new Table({quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, bill, tableID});
     await table.save();
     res.status(201).json(table);
 }
@@ -23,6 +22,7 @@ export const getTableById = async (req, res) => {
 export const updateTableDepositStatus = async (req, res) => {
     const {id} = req.params;
     const {depositStatus} = req.body;
+    console.log(id);
     const table = await Table.findOneAndUpdate({tableID: id}, {depositStatus}, {new: true});
     res.status(200).json(table);
 }
@@ -103,7 +103,12 @@ export const getTblConfigById = async (req, res) => {
     res.status(200).json(tblconfig);
 }
 
-
+export const createAdminTable= async (req, res) => {
+    const {tableID, name, quantity, time, date, phone, email, occasion, specialRequest, tableType, depositStatus, bill} = req.body;
+    const table = new Table({tableID, name, quantity, time, date, phone, email, occasion, specialRequest, tableType, depositStatus, bill});
+    await table.save();
+    res.status(201).json(table);
+}
 
 
 

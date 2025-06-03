@@ -158,6 +158,12 @@ input::placeholder {
     text-align: center;
 }
 
+@media (max-width: 1527px) {
+    .footerRight, .successMesg{
+        font-size: 14.5px;
+    }
+}
+
 /* Responsive styles */
 @media (max-width: 1100px) {
     .footer {

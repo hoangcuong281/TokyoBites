@@ -8,10 +8,17 @@ import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 function Footer(){
     const [successMesg, setSuccessMesg] = useState('');
+    const [errorMesg, setErrorMesg] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const email = e.target.email.value;
+        const email = e.target.email.value.trim();
+        if (!email) {
+            setErrorMesg("Vui lòng nhập email");
+            setSuccessMesg('');
+            return;
+        }
+        setErrorMesg('');
         const response = await fetch('http://localhost:3000/api/email/add_email/', {
             method: 'POST',
             headers: {
@@ -56,7 +63,6 @@ function Footer(){
                         type="email" 
                         name="email" 
                         placeholder="Email"
-                        required
                     />
                     <button 
                         type="submit" 
@@ -67,6 +73,9 @@ function Footer(){
                 </form>
                 {successMesg && (
                     <div className={styles.successMesg}>{successMesg}</div>
+                )}
+                {errorMesg && (
+                    <div className={styles.successMesg}>{errorMesg}</div>
                 )}
             </div>
         </footer>

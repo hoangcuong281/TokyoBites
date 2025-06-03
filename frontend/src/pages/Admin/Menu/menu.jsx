@@ -41,10 +41,11 @@ function Menu() {
   const handleAdd = async () => {
     // Validate all fields
     const errors = {};
-    if (!newMeal.name.trim()) errors.name = 'Name is required';
-    if (!newMeal.description.trim()) errors.description = 'Description is required';
-    if (!newMeal.img.trim()) errors.img = 'Image is required';
-    if (!newMeal.category.trim()) errors.category = 'Category is required';
+    if (!newMeal.name.trim()) errors.name = 'Vui lòng nhập tên';
+    if (!newMeal.description.trim()) errors.description = 'Vui lòng nhập mô tả';
+    if (!newMeal.img.trim()) errors.img = 'Vui lòng chọn hình ảnh';
+    if (!newMeal.category.trim()) errors.category = 'Vui lòng chọn loại món ăn';
+    if (!newMeal.price.trim()) errors.price = 'Vui lòng nhập giá';
 
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
@@ -232,7 +233,7 @@ function Menu() {
         if (highlightedCount >= 4) {
             setNotification({
                 show: true,
-                message: `Cannot highlight more than 4 meals in the ${category} category`
+                message: `Không thể nêu bật hơn 4 món ${getCategoryLabel(category)}`
             });
             
             setTimeout(() => {
@@ -264,6 +265,21 @@ function Menu() {
     }
   };
 
+  const getCategoryLabel = (category) => {
+    switch (category) {
+        case 'appetizers': return 'Khai vị';
+        case 'maki': return 'Maki';
+        case 'sushi': return 'Sushi';
+        case 'sashimi': return 'Sashimi';
+        case 'ramen': return 'Ramen';
+        case 'dessert': return 'Tráng miệng';
+        case 'softdrinks': return 'Nước giải khát';
+        case 'alcohol': return 'Đồ uống có cồn';
+        case 'salads': return 'Salads';
+        default: return category;
+    }
+};
+
   return (
     <div className={styles.container}>
       {notification.show && (
@@ -279,15 +295,15 @@ function Menu() {
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="">All Categories</option>
-            <option value="appetizers">Appetizers</option>
+            <option value="">Tất cả</option>
+            <option value="appetizers">Khai vị</option>
             <option value="maki">Maki</option>
             <option value="sushi">Sushi</option>
             <option value="sashimi">Sashimi</option>
             <option value="ramen">Ramen</option>
-            <option value="dessert">Dessert</option>
-            <option value="softdrinks">Soft Drinks</option>
-            <option value="alcohol">Alcohol</option>
+            <option value="dessert">Tráng miệng</option>
+            <option value="softdrinks">Nước giải khát</option>
+            <option value="alcohol">Đồ uống có cồn</option>
             <option value="salads">Salads</option>
           </select>
       </div>
@@ -295,9 +311,9 @@ function Menu() {
       {showAddModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Add New Product</h2>
+            <h2>Thêm món ăn</h2>
             <div className={styles.formGroup}>
-              <label>Name:</label>
+              <label>Tên:</label>
               <input
                 type="text"
                 name="name"
@@ -308,7 +324,7 @@ function Menu() {
               {validationErrors.name && <span className={styles.errorMessage}>{validationErrors.name}</span>}
             </div>
             <div className={styles.formGroup}>
-              <label>Description:</label>
+              <label>Mô tả:</label>
               <textarea
                 name="description"
                 value={newMeal.description}
@@ -318,10 +334,10 @@ function Menu() {
               {validationErrors.description && <span className={styles.errorMessage}>{validationErrors.description}</span>}
             </div>
             <div className={styles.formGroup}>
-              <label>Image:</label>
+              <label>Hình ảnh:</label>
               <div className={styles.fileInputContainer}>
                 <label className={styles.fileInputLabel}>
-                  {newMeal.fileName || 'Choose Image'}
+                  {newMeal.fileName || 'Chọn hình ảnh'}
                   <input
                     type="file"
                     accept="image/*"
@@ -334,28 +350,28 @@ function Menu() {
               {validationErrors.img && <span className={styles.errorMessage}>{validationErrors.img}</span>}
             </div>
             <div className={styles.formGroup}>
-              <label>Category:</label>
+              <label>Loại:</label>
               <select
                 name="category"
                 value={newMeal.category}
                 onChange={handleInputChange}
                 className={validationErrors.category ? styles.inputError : ''}
               >
-                <option value="">Select Category</option>
-                <option value="appetizers">Appetizers</option>
+                <option value="">Chọn loại món ăn</option>
+                <option value="appetizers">Khai vị</option>
                 <option value="maki">Maki</option>
                 <option value="sushi">Sushi</option>
                 <option value="sashimi">Sashimi</option>
                 <option value="ramen">Ramen</option>
-                <option value="dessert">Dessert</option>
-                <option value="softdrinks">Soft Drinks</option>
-                <option value="alcohol">Alcohol</option>
+                <option value="dessert">Tráng miệng</option>
+                <option value="softdrinks">Nước giải khát</option>
+                <option value="alcohol">Đồ uống có cồn</option>
                 <option value="salads">Salads</option>
               </select>
               {validationErrors.category && <span className={styles.errorMessage}>{validationErrors.category}</span>}
             </div>
             <div className={styles.formGroup}>
-              <label>Price:</label>
+              <label>Giá:</label>
               <input
                 type="number"
                 name="price"
@@ -367,12 +383,12 @@ function Menu() {
             </div>
             
             <div className={styles.modalButtons}>
-              <button onClick={handleAdd}>Save</button>
+              <button onClick={handleAdd}>Lưu</button>
               <button onClick={() => {
                 setShowAddModal(false);
                 setNewMeal({ name: '', description: '', img: '', category: '', fileName: '', price: '' });
                 setValidationErrors({});
-              }}>Cancel</button>
+              }}>Huỷ</button>
             </div>
           </div>
         </div>
@@ -380,9 +396,9 @@ function Menu() {
       {showEditModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Edit Meal</h2>
+            <h2>Sửa món ăn</h2>
             <div className={styles.formGroup}>
-              <label>Name:</label>
+              <label>Tên:</label>
               <input
                 type="text"
                 name="name"
@@ -391,7 +407,7 @@ function Menu() {
               />
             </div>
             <div className={styles.formGroup}>
-              <label>Description:</label>
+              <label>Mô tả:</label>
               <textarea
                 name="description"
                 value={editMeal?.description || ''}
@@ -399,10 +415,10 @@ function Menu() {
               />
             </div>
             <div className={styles.formGroup}>
-              <label>Image:</label>
+              <label>Hình ảnh:</label>
               <div className={styles.fileInputContainer}>
                 <label className={styles.fileInputLabel}>
-                  {editFileName || 'Choose Image'}
+                  {editFileName || 'Chọn hình ảnh'}
                   <input
                     type="file"
                     accept="image/*"
@@ -413,21 +429,21 @@ function Menu() {
               </div>
             </div>
             <div className={styles.formGroup}>
-              <label>Category:</label>
+              <label>Loại:</label>
               <select
                 name="category"
                 value={editMeal?.category || ''}
                 onChange={handleEditChange}
               >
-                <option value="">Select Category</option>
-                <option value="appetizers">Appetizers</option>
+                <option value="">Chọn loại món ăn</option>
+                <option value="appetizers">Khai vị</option>
                 <option value="maki">Maki</option>
                 <option value="sushi">Sushi</option>
                 <option value="sashimi">Sashimi</option>
                 <option value="ramen">Ramen</option>
-                <option value="dessert">Dessert</option>
-                <option value="softdrinks">Soft Drinks</option>
-                <option value="alcohol">Alcohol</option>
+                <option value="dessert">Tráng miệng</option>
+                <option value="softdrinks">Nước giải khát</option>
+                <option value="alcohol">Đồ uống có cồn</option>
                 <option value="salads">Salads</option>
               </select>
             </div>
@@ -442,8 +458,8 @@ function Menu() {
             </div>
             
             <div className={styles.modalButtons}>
-              <button onClick={handleEditSave}>Save</button>
-              <button onClick={() => setShowEditModal(false)}>Cancel</button>
+              <button onClick={handleEditSave}>Lưu</button>
+              <button onClick={() => setShowEditModal(false)}>Huỷ</button>
             </div>
           </div>
         </div>
@@ -451,14 +467,14 @@ function Menu() {
       {showDeleteModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete "{mealToDelete?.name}"?</p>
+            <h2>Xác nhận xoá</h2>
+            <p>Bạn có chắc chắn muốn xoá "{mealToDelete?.name}"?</p>
             <div className={styles.modalButtons}>
-              <button onClick={confirmDelete} className={styles.buttonDelete}>Yes, Delete</button>
+              <button onClick={confirmDelete} className={styles.buttonDelete}>Có</button>
               <button onClick={() => {
                 setShowDeleteModal(false);
                 setMealToDelete(null);
-              }}>Cancel</button>
+              }}>Huỷ</button>
             </div>
           </div>
         </div>
@@ -484,8 +500,8 @@ function Menu() {
                 <div className={styles.card__content}>
                     <p className={styles.card__title}>{meal.name}</p>
                     <p className={styles.card__description}>{meal.description}</p>
-                    <button onClick={() => handleEditClick(meal)} className={styles.buttonEdit}>Edit</button>
-                    <button onClick={() => handleDelete(meal._id)} className={styles.buttonDelete}>Delete</button>
+                    <button onClick={() => handleEditClick(meal)} className={styles.buttonEdit}>Sửa</button>
+                    <button onClick={() => handleDelete(meal._id)} className={styles.buttonDelete}>Xoá</button>
                 </div>
             </div>
           ))}

@@ -120,118 +120,169 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.45);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     z-index: 1000;
 }
 
 .modalHeader {
-    top: 0;
-    background-color: white;
-    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
 }
 
 .modalHeader h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #222;
     margin: 0;
-    padding: 0;
-    color: #333;
 }
 
 .closeBtn {
-    right: 20px;
-    top: 15px;
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 1.7rem;
+    color: #888;
     cursor: pointer;
-    color: #666;
-    padding: 0;
-    width: 30px;
-    height: 30px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-    z-index: 3;
+    transition: background 0.2s;
 }
-
 .closeBtn:hover {
-    background-color: #f0f0f0;
-    color: #333;
+    background: #f2f2f2;
+    color: #222;
 }
 
 .modalContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
-    overflow-y: overlay;
+    background: #fff;
+    border-radius: 10px;
+    padding: 32px 24px 24px 24px;
+    width: 95%;
+    max-width: 480px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     position: relative;
-    color: #333;
+    max-height: 85vh;
+    overflow-y: auto;
+    color: #222;
     scrollbar-gutter: stable;
 }
 
 .formGroup {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .formGroup label {
     display: block;
-    margin-bottom: 5px;
     font-weight: 500;
-    color: #333;
+    margin-bottom: 6px;
+    color: #222;
 }
 
 .formGroup input,
+.formGroup select,
 .formGroup textarea {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #fafbfc;
+    color: #222;
+    transition: border-color 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    border-color: #2196F3;
+    outline: none;
 }
 
 .radioGroup {
     display: flex;
-    align-items: center;;
+    gap: 24px;
+    align-items: center;
+}
+
+.errorMessage {
+    color: #f44336;
+    font-size: 0.92rem;
+    margin-top: 4px;
+    display: block;
 }
 
 .modalButtons {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 18px;
 }
 
 .modalButtons button {
-    padding: 8px 16px;
+    padding: 8px 18px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
 }
 
 .modalButtons button:first-child {
-    background-color: #4CAF50;
-    color: white;
+    background: #4CAF50;
+    color: #fff;
 }
 
 .modalButtons button:last-child {
-    background-color: #f44336;
-    color: white;
+    background: #f44336;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+    .modalContent {
+        padding: 18px 6px 12px 6px;
+        max-width: 98vw;
+    }
+    .modalHeader h2 {
+        font-size: 1.05rem;
+    }
+}
+
+.addBtn {
+    padding: 10px 10px;
+    background-color: #4CAF50;
+    color: var(--Shiro);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(33,150,243,0.06);
+    letter-spacing: 0.5px;
+    justify-self: start;
+    align-self: start;
+}
+
+/* Thêm các class cho trạng thái dòng */
+.row-paid-all {
+    background-color: #e3fbe6 !important; /* xanh nhạt */
+}
+.row-paid-deposit {
+    background-color: #fffbe6 !important; /* vàng nhạt */
+}
+.row-unpaid-all {
+    background-color: #ffeaea !important; /* đỏ nhạt */
 }

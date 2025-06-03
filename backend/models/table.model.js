@@ -13,7 +13,7 @@ const tableSchema = new Schema({
     tableType: {type: String, required: true},
     depositStatus: {type: String, required: true},
     tableID:{type: String , required: true},
-    paymentStatus: {type: String, required: true},
+    depositStatus: {type: String, required: true},
     bill: {type: Number, required: true},
 });
 

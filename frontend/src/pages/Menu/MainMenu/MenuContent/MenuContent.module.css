@@ -45,7 +45,7 @@
 }
 .card__title{
     margin: 10px 0px 20px 0px;
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     font-weight: bold;
     justify-self: center;
     font-size: 1rem;

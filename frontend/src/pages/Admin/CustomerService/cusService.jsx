@@ -5,9 +5,16 @@ function CusService() {
     const [subject, setSubject] = useState('');
     const [text, setText] = useState('');
     const [emailData, setEmailData] = useState(null);
+    const [errors, setErrors] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let newErrors = {};
+        if (!subject.trim()) newErrors.subject = 'Vui lòng nhập tiêu đề';
+        if (!text.trim()) newErrors.text = 'Vui lòng nhập nội dung';
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length > 0) return;
+
         setEmailData({ subject, text });
         handleSendEmail();
         setSubject('');
@@ -44,19 +51,33 @@ function CusService() {
                     <textarea
                         placeholder="Nhập tiêu đề email"
                         value={subject}
-                        onChange={e => setSubject(e.target.value)}
-                        required
+                        onChange={e => {
+                            setSubject(e.target.value);
+                            if (errors.subject && e.target.value.trim()) {
+                                setErrors(prev => ({ ...prev, subject: undefined }));
+                            }
+                        }}
                     />
+                    {errors.subject && (
+                        <span className={styles.errorMsg}>{errors.subject}</span>
+                    )}
                 </div>
                 <div>
                     <label>Nội dung:</label>
                     <textarea
                         placeholder="Nhập nội dung email"
                         value={text}
-                        onChange={e => setText(e.target.value)}
-                        required
+                        onChange={e => {
+                            setText(e.target.value);
+                            if (errors.text && e.target.value.trim()) {
+                                setErrors(prev => ({ ...prev, text: undefined }));
+                            }
+                        }}
                         id={styles.contentArea}
                     />
+                    {errors.text && (
+                        <span className={styles.errorMsg}>{errors.text}</span>
+                    )}
                 </div>
                 <button type="submit">Lưu</button>
             </form>

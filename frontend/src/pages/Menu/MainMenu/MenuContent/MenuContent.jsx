@@ -61,13 +61,13 @@ function MenuContent({ selectedCategory, onCategoryChange }) {
             <div className={styles.searchBar}>
                 <input
                     type="text"
-                    placeholder="Search for a meal..."
+                    placeholder="Tìm kiếm món ăn..."
                     value={searchTerm}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                 />
                 <button onClick={handleSearch}>
-                    Search
+                    Tìm kiếm
                 </button>
             </div>
             <div className={styles.menuItems}>
@@ -84,7 +84,7 @@ function MenuContent({ selectedCategory, onCategoryChange }) {
                         </div>
                     ))
                 ) : (
-                    <p>No meals found.</p>
+                    <p>Không tìm thấy món ăn</p>
                 )}
             </div>
         </div>

@@ -83,11 +83,14 @@ export const checkPayment = async (req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({paymentStatus: 'paid'})
+            body: JSON.stringify({depositStatus: 'paid'})
         })
+        if (!table.ok) {
+            return res.status(500).json({ message: "Cập nhật trạng thái thanh toán thất bại" });
+        }
         res.json({ message: "Thanh toán thành công", data: query });
     } else {
-        res.json({ message: "Thanh toán thất bại", data: query });
+      res.json({ message: "Thanh toán thất bại", data: query });
     }
   } else {
     res.status(400).json({ message: "Dữ liệu không hợp lệ" });

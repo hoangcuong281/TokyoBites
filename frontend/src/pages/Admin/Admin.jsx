@@ -13,7 +13,7 @@ function Admin(){
     return(
         <div className={styles.adminContainer}>
             <div className={styles.container}>
-                <h1 className={styles.title}>Admin Management</h1>
+                <h1 className={styles.title}>QUẢN LÝ NHÀ HÀNG</h1>
                 <div className={styles.adminButtons}>
                     <button 
                         className={`${styles.tab} ${activeView === 'menu' ? styles.tabActive : ''}`}

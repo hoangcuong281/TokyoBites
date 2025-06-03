@@ -45,6 +45,7 @@ h1 {
     margin-bottom: 8px;
     background: #fafafa;
     transition: border 0.2s;
+    box-sizing: border-box;
 }
 
 .mailForm textarea:focus {
@@ -83,6 +84,16 @@ h1 {
     box-shadow: 0 2px 8px rgba(56, 142, 60, 0.08);
     width: 100%;
     max-width: 340px;
+}
+
+.errorMsg {
+    color: #d32f2f;
+    font-size: 0.97rem;
+    margin-top: 0;
+    margin-bottom: 4px;
+    min-height: 18px;
+    display: block;
+    /* Đảm bảo luôn chiếm chỗ, kể cả khi không có lỗi */
 }
 
 .mailForm label,.mailForm input{
