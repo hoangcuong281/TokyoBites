@@ -8,7 +8,7 @@ function MenuContent({ selectedCategory, onCategoryChange }) {
 
     const fetchMeals = async () => {
         try {
-            const response = await fetch("http://localhost:3000/menu");
+            const response = await fetch("http://localhost:3000/api/meal");
             const data = await response.json();
             setMeals(data);
         } catch (error) {

@@ -22,7 +22,6 @@ export const getTableById = async (req, res) => {
 export const updateTableDepositStatus = async (req, res) => {
     const {id} = req.params;
     const {depositStatus} = req.body;
-    console.log(id);
     const table = await Table.findOneAndUpdate({tableID: id}, {depositStatus}, {new: true});
     res.status(200).json(table);
 }

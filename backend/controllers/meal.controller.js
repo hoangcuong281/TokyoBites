@@ -1,5 +1,4 @@
 import Meal from "../models/meal.model.js";
-import mongoose from 'mongoose';
 
 export const getMenu = async (req, res) => {
     try {

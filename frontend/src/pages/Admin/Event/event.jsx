@@ -13,8 +13,8 @@ function EventManagement() {
         description: '',
         date: ''
     });
+    const [addValidation, setAddValidation] = useState({});
 
-    
     const fetchEvents = async () => {
         try {
             const response = await fetch("http://localhost:3000/api/event/");
@@ -30,7 +30,13 @@ function EventManagement() {
     }, []);
 
     const handleAdd = async () => {
-        console.log(newEvent);
+        let errors = {};
+        if (!newEvent.title.trim()) errors.title = "Vui lòng nhập tiêu đề.";
+        if (!newEvent.description.trim()) errors.description = "Vui lòng nhập mô tả.";
+        if (!newEvent.date) errors.date = "Vui lòng chọn ngày.";
+        setAddValidation(errors);
+        if (Object.keys(errors).length > 0) return;
+
         try {
             const response = await fetch("http://localhost:3000/api/event/create", {
                 method: "POST",
@@ -43,7 +49,8 @@ function EventManagement() {
                 const addedEvent = await response.json();
                 setEvents(prevEvents => [...prevEvents, addedEvent]);
                 setShowAddModal(false);
-                setNewEvent({ name: '', description: '', date: '' });
+                setNewEvent({ title: '', description: '', date: '' });
+                setAddValidation({});
             }
         } catch (error) {
             console.error("Error adding event:", error);
@@ -96,6 +103,13 @@ function EventManagement() {
             ...prevData,
             [name]: value
         }));
+        setAddValidation(prev => {
+            const newErrors = { ...prev };
+            if (value && value.toString().trim() !== '') {
+                delete newErrors[name];
+            }
+            return newErrors;
+        });
     };
 
     const handleEditChange = (e) => {
@@ -127,6 +141,7 @@ function EventManagement() {
                             value={newEvent.title}
                             onChange={handleInputChange}
                         />
+                        {addValidation.title && <span className={styles.errorMsg}>{addValidation.title}</span>}
                     </div>
                     <div className={styles.formGroup}>
                         <label>Mô tả:</label>
@@ -135,6 +150,7 @@ function EventManagement() {
                             value={newEvent.description}
                             onChange={handleInputChange}
                         />
+                        {addValidation.description && <span className={styles.errorMsg}>{addValidation.description}</span>}
                     </div>
                     <div className={styles.formGroup}>
                         <label>Ngày:</label>
@@ -144,12 +160,14 @@ function EventManagement() {
                             value={newEvent.date}
                             onChange={handleInputChange}
                         />
+                        {addValidation.date && <span className={styles.errorMsg}>{addValidation.date}</span>}
                     </div>
                     <div className={styles.modalButtons}>
                         <button onClick={handleAdd}>Save</button>
                         <button onClick={() => {
                             setShowAddModal(false);
-                            setNewEvent({ name: '', description: '', date: '' });
+                            setNewEvent({ title: '', description: '', date: '' });
+                            setAddValidation({});
                         }}>Cancel</button>
                     </div>
                 </div>
