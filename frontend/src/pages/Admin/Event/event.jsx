@@ -163,12 +163,12 @@ function EventManagement() {
                         {addValidation.date && <span className={styles.errorMsg}>{addValidation.date}</span>}
                     </div>
                     <div className={styles.modalButtons}>
-                        <button onClick={handleAdd}>Save</button>
+                        <button onClick={handleAdd}>Lưu</button>
                         <button onClick={() => {
                             setShowAddModal(false);
                             setNewEvent({ title: '', description: '', date: '' });
                             setAddValidation({});
-                        }}>Cancel</button>
+                        }}>Huỷ</button>
                     </div>
                 </div>
             </div>
@@ -181,7 +181,7 @@ function EventManagement() {
                     <label>Tiêu đề:</label>
                     <input
                     type="text"
-                    name="name"
+                    name="title"
                     value={editEvent?.title || ''}
                     onChange={handleEditChange}
                     />

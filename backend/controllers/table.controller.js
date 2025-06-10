@@ -56,17 +56,18 @@ export const deleteTable = async (req, res) => {
 export const getAvailTbls = async (req, res) => {
     const {date, time} = req.params;
     try {
-        const isLunchShift = time === '12:00';  // Ca trưa
+        const isLunchShift = time === '12:00';
         const shiftStart = isLunchShift ? '09:00' : '18:00';
         const shiftEnd = isLunchShift ? '14:00' : '23:00';
 
         const bookedTables = await Table.find({
             date: date,
             time: { 
-                $gte: shiftStart,  
-                $lte: shiftEnd    
+                $gte: shiftStart,
+                $lte: shiftEnd
             },
-            depositStatus: { $in: ['paid'] }
+            depositStatus: { $in: ['paid'] },
+            bill: 0
         });
 
         const tableConfigs = await Tblconfig.find();

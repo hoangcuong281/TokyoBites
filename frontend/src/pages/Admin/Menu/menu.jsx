@@ -87,42 +87,48 @@ function Menu() {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Kiểm tra loại file
+    if (!file.type.startsWith('image/')) {
+        setValidationErrors(prev => ({
+            ...prev,
+            img: 'File tải lên không hợp lệ, vui lòng chọn hình ảnh!' // <-- Đổi thông báo ở đây
+        }));
+        return;
+    }
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'tokyobites-upload');
 
     try {
-      const response = await fetch('https://api.cloudinary.com/v1_1/dqxeupx0u/image/upload', {
-        method: 'POST',
-        body: formData
-      });
+        const response = await fetch('https://api.cloudinary.com/v1_1/dqxeupx0u/image/upload', {
+            method: 'POST',
+            body: formData
+        });
 
-      const data = await response.json();
-      
-      if (response.ok && data.secure_url) {
-        setNewMeal(prev => ({
-          ...prev,
-          img: data.secure_url,
-          fileName: file.name
-        }));
-        // Clear any existing image validation error
-        setValidationErrors(prev => ({
-          ...prev,
-          img: ''
-        }));
-      } else {
-        console.error('Failed to upload image:', data);
-        setValidationErrors(prev => ({
-          ...prev,
-          img: data.error?.message || 'Failed to upload image. Please try again.'
-        }));
-      }
+        const data = await response.json();
+        
+        if (response.ok && data.secure_url) {
+            setNewMeal(prev => ({
+                ...prev,
+                img: data.secure_url,
+                fileName: file.name
+            }));
+            setValidationErrors(prev => ({
+                ...prev,
+                img: ''
+            }));
+        } else {
+            setValidationErrors(prev => ({
+                ...prev,
+                img: data.error?.message || 'Tải ảnh thất bại. Vui lòng thử lại.'
+            }));
+        }
     } catch (error) {
-      console.error('Error uploading image:', error);
-      setValidationErrors(prev => ({
-        ...prev,
-        img: 'Error uploading image. Please try again.'
-      }));
+        setValidationErrors(prev => ({
+            ...prev,
+            img: 'Tải ảnh thất bại. Vui lòng thử lại.'
+        }));
     }
   };
   const handleDelete = async (id) => {
@@ -288,7 +294,7 @@ function Menu() {
         </div>
       )}
       <div className={styles.header}>
-        <button onClick={() => setShowAddModal(true)} className={styles.buttonAdd}>Add</button>
+        <button onClick={() => setShowAddModal(true)} className={styles.buttonAdd}>Thêm</button>
         <div className={styles.searchBar}>
           <select 
             className={styles.input}

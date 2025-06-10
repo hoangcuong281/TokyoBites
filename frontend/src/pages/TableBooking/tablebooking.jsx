@@ -155,7 +155,7 @@ function TableBooking(){
             if (!isValidEmail(value)) {
                 setValidationErrors(prev => ({
                     ...prev,
-                    email: 'Please enter a valid email address'
+                    email: 'Vui lòng nhập địa chỉ email hợp lệ (ví dụ: example@domain.com)'
                 }));
             }
         }
@@ -164,23 +164,23 @@ function TableBooking(){
     const handlePayment = async (e) => {
         e.preventDefault();
         const errors = {};
-        if (!tables.name.trim()) errors.name = 'Name is required';
+        if (!tables.name.trim()) errors.name = 'Tên là bắt buộc';
         if (!tables.phone.trim()) {
-            errors.phone = 'Phone is required';
+            errors.phone = 'Số điện thoại là bắt buộc';
         } else if (!isValidPhone(tables.phone)) {
-            errors.phone = 'Please enter a valid 10-digit phone number starting with 0';
+            errors.phone = 'Vui lòng nhập số điện thoại hợp lệ gồm 10 chữ số và bắt đầu bằng số 0';
         }
-        if (!tables.email.trim()) errors.email = 'Email is required';
-        if (!tables.date.trim()) errors.date = 'Date is required';
+        if (!tables.email.trim()) errors.email = 'Email là bắt buộc';
+        if (!tables.date.trim()) errors.date = 'Ngày là bắt buộc';
         if (!tables.time.trim()) {
-            errors.time = 'Time is required';
+            errors.time = 'Thời gian là bắt buộc';
         } else if (!isWithinBusinessHours(tables.time)) {
-            errors.time = 'Please select a time between 9:00 AM - 2:00 PM or 6:00 PM - 11:00 PM';
+            errors.time = 'Vui lòng chọn thời gian giữa 9:00 AM - 2:00 PM hoặc 6:00 PM - 11:00 PM';
         }
-        if (!tables.quantity.trim()) errors.quantity = 'Quantity is required';
-        if (!tables.tableType.trim()) errors.tableType = 'Please select a table type';
+        if (!tables.quantity.trim()) errors.quantity = 'Số lượng là bắt buộc';
+        if (!tables.tableType.trim()) errors.tableType = 'Vui lòng chọn loại bàn';
         if (!isValidEmail(tables.email)) {
-            errors.email = 'Please enter a valid email address (e.g., example@domain.com)';
+            errors.email = 'Vui lòng nhập địa chỉ email hợp lệ (ví dụ: example@domain.com)';
         }
         if (tables.tableType && tables.quantity) {
             // eslint-disable-next-line no-unused-vars
@@ -271,7 +271,7 @@ function TableBooking(){
     return(
         <>
             <div className={styles.bookingContainer}>
-                <p className={styles.mainTitle}>TOKYO BITES</p>
+                <a href='/home' className={styles.mainTitle}>TOKYO BITES</a>
                 <div className={styles.bookingContentContainer}>
                     <p className={styles.title}>Bạn đã sẵn sàng cho một bữa ăn ngon tại Tokyo Bites?</p>
                     <div className={styles.bookingForm}>
@@ -295,8 +295,8 @@ function TableBooking(){
                                     {tables.quantity > 0 && tables.quantity <= 40 && (
                                         <span className={styles.infoMessage}>
                                             {tables.quantity <= 10 ? 
-                                                "Standard pricing" : 
-                                                `${calculatePriceMultiplier(tables.quantity)}x standard price for ${tables.quantity} people`
+                                                "Giá tiêu chuẩn cho 1 bàn 10 người" : 
+                                                `${calculatePriceMultiplier(tables.quantity)}x giá tiêu chuẩn cho ${tables.quantity} người`
                                             }
                                         </span>
                                     )}

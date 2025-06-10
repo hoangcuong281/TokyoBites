@@ -158,9 +158,43 @@ input::placeholder {
     text-align: center;
 }
 
+@media (max-width: 1616px) {
+    .registerButton{
+        width: 100%;
+    }
+
+    .inputContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        gap: 5px
+    }
+
+    .inputContainer input{
+        width: 100%;
+        justify-self: center;
+    }
+}
+
 @media (max-width: 1527px) {
+    .footer {
+        height: auto;
+        padding: 32px 0 0 0;
+    }
     .footerRight, .successMesg{
         font-size: 14.5px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .footer {
+        height: auto;
+        padding: 32px 0 0 0;
+    }
+    .successMesg{
+        font-size: 0.7rem;
     }
 }
 

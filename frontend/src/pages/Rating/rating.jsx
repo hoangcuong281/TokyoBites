@@ -11,7 +11,8 @@ function Home() {
         star: 0,
         feedback: ''
     });
-    
+    const [popup, setPopup] = useState({ show: false, message: '', type: '' });
+
     const isValidEmail = (email) => {
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         return emailRegex.test(email);
@@ -39,6 +40,16 @@ function Home() {
                 setValidationErrors(prev => ({
                     ...prev,
                     email: ''
+                }));
+            }
+        }
+
+        // Xử lý khi chọn sao bằng input (nếu dùng input type="number" hoặc select)
+        if (name === 'star') {
+            if (value >= 1 && value <= 5) {
+                setValidationErrors(prev => ({
+                    ...prev,
+                    star: ''
                 }));
             }
         }
@@ -84,16 +95,16 @@ function Home() {
 
         if (hasError) return;
 
-        const response = fetch('http://localhost:3000/api/rating/', {
+        fetch('http://localhost:3000/api/rating/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(rating)
-        });
-        response.then(res => {
+        })
+        .then(res => {
             if (res.ok) {
-                alert('Cảm ơn bạn đã gửi đánh giá!');
+                setPopup({ show: true, message: 'Cảm ơn bạn đã gửi đánh giá!', type: 'success' });
                 setRating({
                     email: '',
                     star: 0,
@@ -101,13 +112,16 @@ function Home() {
                 });
                 setValidationErrors({});
             } else {
-                alert('Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại sau.');
+                setPopup({ show: true, message: 'Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại sau.', type: 'error' });
             }
-        }).catch(err => {
+        })
+        .catch(err => {
             console.error('Error:', err);
-            alert('Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại sau.');
+            setPopup({ show: true, message: 'Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại sau.', type: 'error' });
         });
     };
+
+    const closePopup = () => setPopup({ show: false, message: '', type: '' });
 
     return(
         <>
@@ -139,7 +153,12 @@ function Home() {
                                 <span
                                     key={star}
                                     className={styles.star}
-                                    onClick={() => setRating(prev => ({ ...prev, star }))}
+                                    onClick={() => {
+                                        setRating(prev => ({ ...prev, star }));
+                                        if (validationErrors.star) {
+                                            setValidationErrors(prev => ({ ...prev, star: '' }));
+                                        }
+                                    }}
                                     style={{ cursor: 'pointer', fontSize: 28, display: 'inline-block' }}
                                     aria-label={`Chọn ${star} sao`}
                                 >
@@ -175,6 +194,14 @@ function Home() {
                     </form>
                 </div>
             </div>
+            {popup.show && (
+                <div className={`${styles.popup} ${popup.type === 'success' ? styles.popupSuccess : styles.popupError}`}>
+                    <div className={styles.popupContent}>
+                        <span>{popup.message}</span>
+                        <button className={styles.popupClose} onClick={closePopup}>Đóng</button>
+                    </div>
+                </div>
+            )}
             <Footer/>
         </>
     );

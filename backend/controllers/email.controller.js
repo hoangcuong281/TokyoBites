@@ -9,7 +9,7 @@ export const sendEmail = async (req, res) => {
     (async () => {
     const info = await transporter.sendMail({
         from: '"TokyoBites" <viperdiff28@gmail.com>',
-        to: 'ng.hoangcuong28@gmail.com', // list of receivers
+        to: emailList, // list of receivers
         subject: subject,
         text: text,
     });

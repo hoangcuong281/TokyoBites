@@ -8,9 +8,8 @@ function MainMenu(){
         marginBottom: '200px',
         width: '100%',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         alignItems: 'start',
-        padding: '0 6rem',
     }
     const [selectedCategory, setSelectedCategory] = useState('all');
     return(

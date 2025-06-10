@@ -653,7 +653,7 @@ function Table() {
                             />
                         </div>
                         <div className={styles.modalButtons}>
-                            <button onClick={handleEditSave}>Save</button>
+                            <button onClick={handleEditSave}>Lưu</button>
                         </div>
                     </div>
                 </div>
@@ -663,7 +663,7 @@ function Table() {
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
                         <div className={styles.modalHeader}>
-                            <h2>Confirm Delete</h2>
+                            <h2>Xác nhận xóa</h2>
                             <button 
                                 className={styles.closeBtn}
                                 onClick={() => {
@@ -674,9 +674,9 @@ function Table() {
                                 ×
                             </button>
                         </div>
-                        <p>Are you sure you want to delete reservation for "{tableToDelete?.name}"?</p>
+                        <p>Bạn có chắc chắn muốn xoá đơn đặt bàn của "{tableToDelete?.name}"?</p>
                         <div className={styles.modalButtons}>
-                            <button onClick={confirmDelete} className={styles.deleteBtn}>Yes, Delete</button>
+                            <button onClick={confirmDelete} className={styles.deleteBtn}>Có</button>
                         </div>
                     </div>
                 </div>

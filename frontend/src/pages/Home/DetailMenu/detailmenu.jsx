@@ -24,7 +24,7 @@ function DetailMenu() {
                         <div className={styles.tagDescription}>
                             Thành phần và nguyên liệu tươi sạch, tuyển chọn kỹ lưỡng
                         </div>
-                        <a className={styles.tagBtn}>Xem thành phần</a>
+                        <a href='https://docs.google.com/document/d/1LXjEXNuWk6ePNtN8M93cWlOe_Zpoj3CsoN773O37KTw/edit?usp=sharing' className={styles.tagBtn}>Xem thành phần</a>
                     </div>
                 </div>
             </div>

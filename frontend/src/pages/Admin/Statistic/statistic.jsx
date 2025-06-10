@@ -103,7 +103,7 @@ function Statistic() {
             />
         </label>
         <div className={styles.section}>
-            <h3 className={styles.subheading}>Số bàn đã thanh toán trong ngày: {formatDate(selectedDate) || 'Pick a date to get started'}</h3>
+            <h3 className={styles.subheading}>Số bàn đã thanh toán trong ngày: {formatDate(selectedDate) || 'Chọn ngày để bắt đầu'}</h3>
             <p className={styles.stat}>Bàn thường: <strong>{bookingStats.daily.normal}</strong></p>
             <p className={styles.stat}>Bàn cao cấp: <strong>{bookingStats.daily.premium}</strong></p>
             <p className={styles.stat}>Bàn VIP: <strong>{bookingStats.daily.vip}</strong></p>

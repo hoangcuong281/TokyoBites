@@ -9,12 +9,19 @@ import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 function Footer(){
     const [successMesg, setSuccessMesg] = useState('');
     const [errorMesg, setErrorMesg] = useState('');
+    const [emailInput, setEmailInput] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const email = e.target.email.value.trim();
+        const email = emailInput.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
             setErrorMesg("Vui lòng nhập email");
+            setSuccessMesg('');
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            setErrorMesg("Email không hợp lệ");
             setSuccessMesg('');
             return;
         }
@@ -28,7 +35,7 @@ function Footer(){
         });
         if (response.ok){
             setSuccessMesg("Đăng ký nhận thông báo các chương trình ưu đãi thành công!!!");
-            e.target.reset();
+            setEmailInput('');
         }
     };
     
@@ -60,9 +67,14 @@ function Footer(){
                 <p className={`${styles.signUp} ${styles.footerContent}`}>Đăng ký nhận thông tin ưu đãi: </p>
                 <form onSubmit={handleSubmit} className={styles.inputContainer}>
                     <input 
-                        type="email" 
+                        type="text" 
                         name="email" 
                         placeholder="Email"
+                        value={emailInput}
+                        onChange={e => {
+                            setEmailInput(e.target.value);
+                            if (errorMesg) setErrorMesg('');
+                        }}
                     />
                     <button 
                         type="submit" 

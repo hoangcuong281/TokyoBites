@@ -4,6 +4,7 @@ import Table from './Table/table'
 import Statistic from './Statistic/statistic';
 import CusService from './CustomerService/cusService';
 import EventManagement from './Event/event';
+import Review from './Review/review';
 import styles from './admin.module.css'
 
 
@@ -45,6 +46,12 @@ function Admin(){
                     >
                         SỰ KIỆN
                     </button>
+                    <button 
+                        className={`${styles.tab} ${activeView === 'review' ? styles.tabActive : ''}`}
+                        onClick={() => setActiveView('review')}
+                    >
+                        ĐÁNH GIÁ
+                    </button>
                 </div>
                 <div className={styles.contentCard}>
                     <div className={styles.adminContent}>
@@ -53,6 +60,7 @@ function Admin(){
                         {activeView === 'statistic' && <Statistic/>}
                         {activeView === 'customerService' && <CusService/>}
                         {activeView === 'eventManagement' && <EventManagement/>}
+                        {activeView === 'review' && <Review/>}
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@ function Sidebar({ selectedCategory, onCategoryChange }){
                 <li className={`${selectedCategory === 'ramen' ? styles.selected : ''} ${styles.menuSelection}`} onClick={() => handleCategoryClick('ramen')} data-category="ramen" id="ramen">Ramen</li>
                 <li className={`${selectedCategory === 'rice' ? styles.selected : ''} ${styles.menuSelection}`} onClick={() => handleCategoryClick('rice')} data-category="rice" id="rice">Cơm</li>
                 <li className={`${selectedCategory === 'dessert' ? styles.selected : ''} ${styles.menuSelection}`} onClick={() => handleCategoryClick('dessert')} data-category="dessert" id="dessert">Tráng miệng</li>
-                <li className={`${selectedCategory === 'drinks' ? styles.selected : ''} ${styles.menuSelection}`} onClick={() => handleCategoryClick('drinks')} data-category="drinks" id="drinks">Nước uống</li>
+                <li className={`${selectedCategory === 'drinks' ? styles.selected : ''} ${styles.menuSelection}`} onClick={() => handleCategoryClick('drinks')} data-category="drinks" id="drinks">Đồ uống</li>
             </ul>
         </div>
     );
