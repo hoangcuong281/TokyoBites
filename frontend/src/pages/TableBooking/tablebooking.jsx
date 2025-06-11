@@ -67,6 +67,22 @@ function TableBooking(){
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === 'date') {
+            const today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại
+            if (value < today) {
+                setValidationErrors(prev => ({
+                    ...prev,
+                    date: 'Không thể chọn ngày trong quá khứ'
+                }));
+            } else {
+                setValidationErrors(prev => ({
+                    ...prev,
+                    date: ''
+                }));
+            }
+        }
+
         if (name === 'quantity') {
             const quantity = parseInt(value);
             if (quantity <= 0) {
@@ -327,6 +343,7 @@ function TableBooking(){
                                         name="date" 
                                         value={tables.date}
                                         onChange={handleInputChange}
+                                        min={new Date().toISOString().split('T')[0]}
                                         className={validationErrors.date ? styles.inputError : ''}
                                     />
                                     {validationErrors.date && <span className={styles.errorMessage}>{validationErrors.date}</span>}
