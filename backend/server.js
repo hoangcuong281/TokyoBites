@@ -8,6 +8,7 @@ import tableRoutes from './routes/table.route.js';
 import emailRouter from './routes/email.route.js';
 import ratingRoutes from './routes/rating.route.js';
 import eventRoutes from "./routes/event.route.js";
+import './cron/checkPastTime.js';
 const app = express();
 const port = process.env.PORT;
 

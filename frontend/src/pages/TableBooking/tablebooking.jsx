@@ -31,6 +31,7 @@ function TableBooking(){
         depositStatus: '',
         bill: 0,
         tableID: '',
+        status: 'pending'
     });
 
     const isValidEmail = (email) => {

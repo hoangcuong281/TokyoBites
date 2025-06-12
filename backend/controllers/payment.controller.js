@@ -27,7 +27,7 @@ export const createPaymentUrl = async (req, res) => {
 
   let ipAddr = req.ip;
   let orderId = moment().format("YYYYMMDDHHmmss");
-  let bankCode = req.query.bankCode || "NCB";
+  // let bankCode = req.query.bankCode || "NCB";
 
   let createDate = moment().format("YYYYMMDDHHmmss");
   let orderInfo = `Deposit_table_fee_at_Tokyo_Bites`;
@@ -49,9 +49,9 @@ export const createPaymentUrl = async (req, res) => {
     vnp_CreateDate: createDate,
   };
 
-  if (bankCode !== "") {
-    vnp_Params["vnp_BankCode"] = bankCode;
-  }
+  // if (bankCode !== "") {
+  //   vnp_Params["vnp_BankCode"] = bankCode;
+  // }
 
   vnp_Params = sortObject(vnp_Params);
 

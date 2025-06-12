@@ -29,7 +29,8 @@ function Table() {
         specialRequest: '',
         tableType: '',
         depositStatus: '',
-        bill: 0
+        bill: 0,
+        status: 'pending'
     });
     const [addValidation, setAddValidation] = useState({});
 
@@ -77,6 +78,7 @@ function Table() {
             tableType: table.tableType || '',
             depositStatus: table.depositStatus || '',
             bill: table.bill || '',
+            status: table.status || '',
             _id: table._id
         };
         setEditTable(tableDataForEdit);
@@ -126,12 +128,12 @@ function Table() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ bill: billTotal })
+                body: JSON.stringify({ bill: billTotal, status: 'used' })
             });
 
             if (response.ok) {
                 const updatedTable = await response.json();
-                setTables(tables.map(t => t._id === checkOutTable ? updatedTable : t));
+                setTables(tables.map(t => t._id === checkOutTable? updatedTable : t));
             }
         } catch (error) {
             console.log(error);
@@ -145,7 +147,7 @@ function Table() {
         const { name, value } = e.target;
         setNewTable(prev => ({
             ...prev,
-            [name]: value
+            [name]: name === 'tableID' ? prev.tableID : value
         }));
         setAddValidation(prev => {
             const newErrors = { ...prev };
@@ -170,15 +172,13 @@ function Table() {
         ];
         let errors = {};
         requiredFields.forEach(field => {
-            if (field.key === 'tableType' || field.key === 'depositStatus') {
-                errors[field.key] = `Vui lòng chọn ${field.label}.`;
-            } else {
+            if (!newTable[field.key] || newTable[field.key].toString().trim() === '') {
                 errors[field.key] = `Vui lòng nhập ${field.label}.`;
             }
         });
         setAddValidation(errors);
         if (Object.keys(errors).length > 0) return;
-
+        console.log(newTable);
         try {
             const response = await fetch('http://localhost:3000/api/table/admin', {
                 method: 'POST',
@@ -192,7 +192,7 @@ function Table() {
                 setTables(prev => [...prev, addedTable]);
                 setShowAddModal(false);
                 setNewTable({
-                    tableID: '',
+                    tableID: 'admin',
                     name: '',
                     quantity: '',
                     time: '',
@@ -203,7 +203,8 @@ function Table() {
                     specialRequest: '',
                     tableType: '',
                     depositStatus: '',
-                    bill: 0
+                    bill: 0,
+                    status: 'pending'
                 });
                 setAddValidation({});
             }
@@ -227,6 +228,7 @@ function Table() {
         if (filter.billStatus === 'unpaid' && table.bill) return false;
         if (filter.quantity && Number(table.quantity) !== Number(filter.quantity)) return false;
         if (filter.tableType && table.tableType !== filter.tableType) return false;
+        if (filter.status && table.status !== filter.status) return false;
         return true;
     });
 
@@ -292,8 +294,22 @@ function Table() {
                         <option value="VIPTABLE">Bàn VIP</option>
                     </select>
                 </div>
-                <button 
-                    onClick={() => setFilter({ date: '', billStatus: '', quantity: '', tableType: '' })}
+                <div className={styles.filterItem}>
+                    <label>Trạng thái: </label>
+                    <select
+                        className={styles.inputSquare}
+                        value={filter.status}
+                        onChange={e => setFilter(f => ({ ...f, status: e.target.value }))}
+                    >
+                        <option value="">Tất cả</option>
+                        <option value="pending">Chưa dùng</option>
+                        <option value="using">Đang dùng</option>
+                        <option value="used">Đã dùng</option>
+                        <option value="canceled">Đã hủy</option>
+                    </select>
+                </div>
+                <button
+                    onClick={() => setFilter({ date: '', billStatus: '', quantity: '', tableType: '', status: '' })}
                     className={styles.clearFilterBtn}>
                     Xoá lọc
                 </button>
@@ -312,6 +328,7 @@ function Table() {
                         <th>Loại bàn</th>
                         <th>Trạng thái cọc</th>
                         <th>Tổng hoá đơn</th>
+                        <th>Trạng thái</th> {/* Thêm cột trạng thái */}
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -354,6 +371,12 @@ function Table() {
                                     {(table.bill && Number(table.bill) !== 0)
                                         ? Number(table.bill).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
                                         : 'Chưa thanh toán'}
+                                </td>
+                                <td>
+                                    {table.status === 'pending' && 'Chưa dùng'}
+                                    {table.status === 'using' && 'Đang dùng'}
+                                    {table.status === 'used' && 'Đã dùng'}
+                                    {table.status === 'canceled' && 'Đã hủy'}
                                 </td>
                                 <td>
                                     <button
@@ -519,6 +542,19 @@ function Table() {
                                 onChange={handleAddChange}
                             />
                         </div>
+                        <div className={styles.formGroup}>
+                            <label>Trạng thái:</label>
+                            <select
+                                name="status"
+                                value={newTable.status}
+                                onChange={handleAddChange}
+                            >
+                                <option value="pending">Chưa dùng</option>
+                                <option value="using">Đang dùng</option>
+                                <option value="used">Đã dùng</option>
+                                <option value="canceled">Đã hủy</option>
+                            </select>
+                        </div>
                         <div className={styles.modalButtons}>
                             <button onClick={handleAddSave}>Lưu</button>
                         </div>
@@ -652,6 +688,19 @@ function Table() {
                                 onChange={handleEditChange}
                             />
                         </div>
+                        <div className={styles.formGroup}>
+                            <label>Trạng thái:</label>
+                            <select
+                                name="status"
+                                value={editTable?.status || ''}
+                                onChange={handleEditChange}
+                            >
+                                <option value="pending">Chưa dùng</option>
+                                <option value="using">Đang dùng</option>
+                                <option value="used">Đã dùng</option>
+                                <option value="canceled">Đã hủy</option>
+                            </select>
+                        </div>
                         <div className={styles.modalButtons}>
                             <button onClick={handleEditSave}>Lưu</button>
                         </div>
@@ -702,6 +751,9 @@ function Table() {
                                 onChange={e => setBillTotal(e.target.value)}
                                 placeholder="Nhập số tiền (VND)"
                             />
+                            {!billTotal || Number(billTotal) < 0 ? (
+                                <span className={styles.errorMessage}>Vui lòng nhập tổng giá trị hóa đơn hợp lệ!</span>
+                            ) : null}
                         </div>
                         <div className={styles.modalButtons}>
                             <button onClick={handleConfirmCheckOut}>Xác nhận</button>

@@ -15,6 +15,7 @@ const tableSchema = new Schema({
     tableID:{type: String , required: true},
     depositStatus: {type: String, required: true},
     bill: {type: Number, required: true},
+    status: {type: String, required: true}
 });
 
 export default mongoose.model('Table', tableSchema);

@@ -2,8 +2,8 @@ import Table from '../models/table.model.js';
 import Tblconfig from '../models/tblconfig.js';
 
 export const createTable = async (req, res) => {
-    const {quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, bill, tableID} = req.body;
-    const table = new Table({quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, bill, tableID});
+    const {quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, bill, tableID, status} = req.body;
+    const table = new Table({quantity, time, date, name, phone, email, occasion, specialRequest, tableType, depositStatus, bill, tableID, status});
     await table.save();
     res.status(201).json(table);
 }
@@ -28,7 +28,7 @@ export const updateTableDepositStatus = async (req, res) => {
 
 export const updateTable = async (req, res) => {
     const {id} = req.params;
-    const fields = ["quantity", "time", "date", "name", "phone", "email", "occasion", "specialRequest", "tableType", "depositStatus", "bill"];
+    const fields = ["quantity", "time", "date", "name", "phone", "email", "occasion", "specialRequest", "tableType", "depositStatus", "bill", "status"];
 
     const updateData = {};
     fields.forEach(field => {
@@ -41,11 +41,25 @@ export const updateTable = async (req, res) => {
 }
 
 export const updateTableBill = async (req, res) => {
-    const {id} = req.params;
-    const {bill} = req.body;
-    const table = await Table.findOneAndUpdate({_id: id}, {bill}, {new: true});
-    res.status(200).json(table);
-}
+    const { id } = req.params;
+    const { bill, status } = req.body; // Thêm status vào body request
+
+    const updateData = { bill }; // Khởi tạo dữ liệu cần cập nhật
+    if (status) {
+        updateData.status = status; // Nếu có status, thêm vào dữ liệu cập nhật
+    }
+
+    try {
+        const table = await Table.findOneAndUpdate(
+            { _id: id },
+            updateData,
+            { new: true }
+        );
+        res.status(200).json(table);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 export const deleteTable = async (req, res) => {
     const {id} = req.params;
@@ -104,8 +118,8 @@ export const getTblConfigById = async (req, res) => {
 }
 
 export const createAdminTable= async (req, res) => {
-    const {tableID, name, quantity, time, date, phone, email, occasion, specialRequest, tableType, depositStatus, bill} = req.body;
-    const table = new Table({tableID, name, quantity, time, date, phone, email, occasion, specialRequest, tableType, depositStatus, bill});
+    const {tableID, name, quantity, time, date, phone, email, occasion, specialRequest, tableType, depositStatus, bill, status} = req.body;
+    const table = new Table({tableID, name, quantity, time, date, phone, email, occasion, specialRequest, tableType, depositStatus, bill, status});
     await table.save();
     res.status(201).json(table);
 }

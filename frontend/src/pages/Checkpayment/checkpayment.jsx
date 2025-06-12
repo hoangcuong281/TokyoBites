@@ -33,7 +33,7 @@ function CheckPayment() {
         {status === "success" && (
           <div className={styles.successContainer}>
             <div className={styles.checkmark}></div>
-            <div className={styles.message}>Successfully</div>
+            <div className={styles.message}>Đặt bàn thành công!</div>
             <div>
               <button onClick={() => window.location.href = '/menu'} className={styles.reviewButton}>
                 Review Menu
@@ -44,13 +44,13 @@ function CheckPayment() {
         {status === "error" && (
           <div className={styles.failContainer}>
             <div className={styles.fail}></div>
-            <div className={styles.failMessage}>Transaction Failed</div>
+            <div className={styles.failMessage}>Đặt bàn không thành công</div>
             <div>
               <button onClick={() => window.location.href = '/contact'} className={styles.failButton}>
-                Contact
+                Liên hệ
               </button>
               <button onClick={() => window.location.href = '/tablebooking'} className={styles.failButton}>
-                Try Again
+                Thử lại
               </button>
             </div>
           </div>

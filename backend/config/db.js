@@ -8,8 +8,8 @@ export const connect = async () => {
         await mongoose.connect(process.env.MONGO_URI,{
             dbName : process.env.DB_NAME,
         });
-        console.log("OK!!")
+        console.log("database connected")
     } catch (error) {
-        console.log("NOT OK!!")
+        console.log("database NOT connected")
     }
 }
