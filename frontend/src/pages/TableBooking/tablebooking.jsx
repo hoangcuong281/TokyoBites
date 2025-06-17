@@ -70,7 +70,7 @@ function TableBooking(){
         const { name, value } = e.target;
 
         if (name === 'date') {
-            const today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại
+            const today = new Date().toISOString().split('T')[0]; 
             if (value < today) {
                 setValidationErrors(prev => ({
                     ...prev,
@@ -138,17 +138,33 @@ function TableBooking(){
         }
 
         if (name === 'time') {
-            if (!isWithinBusinessHours(value)) {
+            const selectedTime = value;
+            const today = new Date();
+            const selectedDate = new Date(tables.date);
+            if (
+                selectedDate.toDateString() === today.toDateString() &&
+                selectedTime < today.toTimeString().slice(0, 5) // Test: 10:00, input: 09:30
+            ) {
                 setValidationErrors(prev => ({
                     ...prev,
-                    time: 'Vui lòng chọn trong khung giờ 9:00 AM - 2:00 PM or 6:00 PM - 11:00 PM'
+                    time: 'Không thể chọn giờ trong quá khứ!'
                 }));
+                return;
+            }
+
+            if (!isWithinBusinessHours(selectedTime)) {
+                setValidationErrors(prev => ({
+                    ...prev,
+                    time: 'Vui lòng chọn trong khung giờ 9:00 AM - 2:00 PM hoặc 6:00 PM - 11:00 PM'
+                }));
+                return;
             } else {
                 setValidationErrors(prev => ({
                     ...prev,
                     time: ''
                 }));
             }
+
             setTables(prev => ({
                 ...prev,
                 time: value
@@ -243,16 +259,12 @@ function TableBooking(){
 
     const fetchAvailableTables = async (date, tableType) => {
         try {
-            // Lấy số bàn khả dụng cho ca trưa
             const lunchResponse = await fetch(`http://localhost:3000/api/table/avail/${date}/12:00`);
             const lunchData = await lunchResponse.json();
-            // Tìm thông tin bàn có tableID tương ứng trong kết quả trả về
             const lunchAvailable = lunchData.find(table => table.tableID === tableType)?.tableQty || 0;
             
-            // Lấy số bàn khả dụng cho ca tối
             const dinnerResponse = await fetch(`http://localhost:3000/api/table/avail/${date}/18:00`);
             const dinnerData = await dinnerResponse.json();
-            // Tìm thông tin bàn có tableID tương ứng trong kết quả trả về
             const dinnerAvailable = dinnerData.find(table => table.tableID === tableType)?.tableQty || 0;
 
             setAvailableTables(prev => ({
@@ -275,12 +287,10 @@ function TableBooking(){
         }
     }, [tables.date, tablesType]);
 
-    // Thêm hàm kiểm tra số lượng bàn có đủ không
     const isTableAvailable = (table, shift) => {
         if (!tables.quantity || !availableTables[table.tableID]) return true;
         
         const availableQty = availableTables[table.tableID][shift];
-        // Tính số bàn cần dựa trên số người
         const tablesNeeded = Math.ceil(parseInt(tables.quantity) / 10);
         return availableQty >= tablesNeeded;
     };
@@ -373,7 +383,7 @@ function TableBooking(){
                                         onChange={handleInputChange}
                                         maxLength="10"
                                         className={`${styles.input} ${validationErrors.phone ? styles.inputError : ''}`}
-                                        pattern="[0-9]*"  // This will show number keyboard on mobile devices
+                                        pattern="[0-9]*"  
                                     />
                                     {validationErrors.phone && (
                                         <span className={styles.errorMessage}>
