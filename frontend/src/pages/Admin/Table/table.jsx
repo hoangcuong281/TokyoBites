@@ -159,7 +159,6 @@ function Table() {
     };
 
     const handleAddSave = async () => {
-        // Validation
         const requiredFields = [
             { key: 'name', label: 'Tên' },
             { key: 'quantity', label: 'Số lượng người' },
